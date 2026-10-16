@@ -1,11 +1,31 @@
+# ==========================================
+# Normalización de saltos de línea
+# ==========================================
 * text=auto eol=lf
 
+# ==========================================
+# Estadísticas de GitHub
+# ==========================================
+public/** linguist-vendored
+resources/css/** linguist-vendored
+resources/js/** linguist-vendored
+*.css linguist-vendored
+*.scss linguist-vendored
+*.js linguist-vendored
+*.blade.php linguist-language=PHP
+
+# ==========================================
+# Lectura de cambios (Diffs)
+# ==========================================
 *.blade.php diff=html
 *.css diff=css
 *.html diff=html
 *.md diff=markdown
 *.php diff=php
 
+# ==========================================
+# Ignorar al descargar el repo en .ZIP
+# ==========================================
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
