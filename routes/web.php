@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\HomeController;
@@ -30,4 +31,12 @@ Route::middleware(['auth', 'rol'])->group(function() {
     Route::put('usuarios/activar/{usuario}', [UserController::class, 'activarUsuario'])->name('usuarios.activar');
 //delete
     Route::delete('usuarios/{usuario}', [UserController::class, 'eliminarUsuario'])->name('usuarios.eliminar');
+
+    Route::get('equipos/exportar/excel', [EquipoController::class, 'exportarExcel'])
+        ->name('equipos.export.excel');
+
+    Route::get('equipos/{id}/ficha-pdf', [EquipoController::class, 'exportarFichaPdf'])
+        ->name('equipos.ficha.pdf');
+
+    Route::get('equipos', [EquipoController::class, 'index'])->name('equipos');
 });

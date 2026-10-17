@@ -85,8 +85,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="bi bi-server nav-icon"></i> Racks & Servidores
+                        <a href="{{ route('equipos') }}" class="nav-link">
+                            <i class="bi bi-pc-display nav-icon"></i>
+                            <i class="bi bi-server nav-icon"></i>
+                            Equipos
                         </a>
                     </li>
                     <li class="nav-item">

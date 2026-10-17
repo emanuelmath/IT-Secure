@@ -6,7 +6,8 @@ use App\Http\Requests\ActualizarUserRequest;
 use App\Http\Requests\InsertarUsuarioRequest;
 use App\Models\Rol;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Mail\BienvenidaMail;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -22,8 +23,10 @@ class UserController extends Controller
     public function insertarUsuario(InsertarUsuarioRequest $request)
     {
         $datos = $request->validated();
+        $contrasenha = $datos['contrasenha'];
         $datos['contrasenha'] = bcrypt($datos['contrasenha']);
         $user = User::insertar($datos);
+        Mail::to($user->email)->send(new BienvenidaMail($user->nombre, $user->email, $contrasenha));
         return redirect()->route('usuarios')->with('success', "Usuario {$user->nombre} ingresado correctamente");
     }
     public function buscarUsuarioPorId(int $id)

@@ -4,15 +4,16 @@
 * text=auto eol=lf
 
 # ==========================================
-# Estadísticas de GitHub
+# Estadísticas de GitHub (PHP + Blade + JS/CSS propio)
 # ==========================================
 public/** linguist-vendored
-resources/css/** linguist-vendored
-resources/js/** linguist-vendored
-*.css linguist-vendored
-*.scss linguist-vendored
-*.js linguist-vendored
-*.blade.php linguist-language=PHP
+*.min.css linguist-generated
+*.min.js linguist-generated
+*.map linguist-generated
+*.php linguist-detectable=true
+*.blade.php linguist-detectable=true
+resources/js/** linguist-detectable=true
+resources/css/** linguist-detectable=true
 
 # ==========================================
 # Lectura de cambios (Diffs)
