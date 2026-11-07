@@ -1,123 +1,132 @@
 @extends('layouts.layout')
 
-@section('titulo', 'Usuarios')
+@section('titulo', 'Gestión de Usuarios | IT-Secure')
+@section('subtitulo', 'Administración de Cuentas y Roles')
+@section('breadcrumb', 'Usuarios')
 
 @push('estilos')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
 @endpush
 
 @section('contenido')
-    <div class="d-flex justify-content-between align-items-center my-4">
-        <h1 class="h3 mb-0"><i class="bi bi-box-seam text-primary"></i> Usuarios </h1>
-        <button type="button" id="btnNuevoUsuario" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUsuario">
-            <i class="bi bi-plus-lg"></i> Nuevo Usuario
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="h4 mb-0 text-light outfit-semibold"><i class="bi bi-people-fill text-cyan me-2 opacity-75"></i> Directorio de Usuarios</h1>
+        <button type="button" id="btnNuevoUsuario" class="btn dc-btn-primary" data-bs-toggle="modal" data-bs-target="#modalUsuario">
+            <i class="bi bi-person-plus-fill me-1"></i> Nuevo Usuario
         </button>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <table id="tbl" class="table table-hover table-striped align-middle w-100">
-                <thead class="table-dark">
-                <tr>
-                    <th style="width: 3rem;">#</th>
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Roles</th>
-                    <th>Activo</th>
-                    <th class="text-center" style="width: 8rem;">Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach ($usuarios as $u)
+    <div class="dc-card">
+        <div class="card-body p-0">
+            <div class="table-responsive p-4">
+                <table id="tbl" class="table table-hover align-middle w-100 dc-table-dark">
+                    <thead>
                     <tr>
-                        <td class="text-muted">{{ $u->id }}</td>
-                        <td><span class="fw-semibold">{{ $u->nombre }}</span></td>
-                        <td>{{ $u->email }}</td>
-                        <td>
-                            @foreach ($u->roles as $rol)
-                                <span class="fw-semibold">{{ $rol->nombre }}</span>
-                                <br>
-                                <small class="text-muted d-block">{{ $rol->descripcion }}</small>
-                            @endforeach
-                        </td>
-                        <td>{{ $u->activo ? "Sí" : "No" }}</td>
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario" onclick="editarUsuario({{ $u->id }})">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                            @if($u->activo)
-                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalEliminarUsuario" onclick="eliminarUsuario({{ $u->id }}, '{{$u->nombre }}')">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            @else
-                                <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalActivarUsuario" onclick="activarUsuario({{ $u->id }}, '{{$u->nombre }}')">
-                                    <i class="bi bi-check"></i>
-                                </button>
-                            @endif
-                        </td>
+                        <th class="dc-th-xs">#</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Roles</th>
+                        <th>Estado</th>
+                        <th class="text-center dc-th-md">Acciones</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach ($usuarios as $u)
+                        <tr class="transition-all dc-table-row">
+                            <td class="text-muted outfit-light">{{ $u->id }}</td>
+                            <td><span class="text-light outfit-semibold">{{ $u->nombre }}</span></td>
+                            <td class="text-muted outfit-regular">{{ $u->email }}</td>
+                            <td>
+                                @foreach ($u->roles as $rol)
+                                    <span class="outfit-medium text-cyan">{{ $rol->nombre }}</span>
+                                    <br>
+                                    <small class="text-muted d-block dc-text-micro">{{ $rol->descripcion }}</small>
+                                @endforeach
+                            </td>
+                            <td>
+                                @if($u->activo)
+                                    <span class="badge dc-badge-success rounded-pill px-3 outfit-medium">Activo</span>
+                                @else
+                                    <span class="badge dc-badge-danger rounded-pill px-3 outfit-medium">Inactivo</span>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-outline-info dc-btn-icon me-2" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario" onclick="editarUsuario({{ $u->id }})" title="Editar Usuario">
+                                    <i class="bi bi-pencil-square fs-6"></i>
+                                </button>
+                                @if($u->activo)
+                                    <button class="btn btn-sm btn-outline-danger dc-btn-icon" data-bs-toggle="modal" data-bs-target="#modalEliminarUsuario" onclick="eliminarUsuario({{ $u->id }}, '{{$u->nombre }}')" title="Desactivar">
+                                        <i class="bi bi-trash-fill fs-6"></i>
+                                    </button>
+                                @else
+                                    <button class="btn btn-sm btn-outline-success dc-btn-icon" data-bs-toggle="modal" data-bs-target="#modalActivarUsuario" onclick="activarUsuario({{ $u->id }}, '{{$u->nombre }}')" title="Reactivar">
+                                        <i class="bi bi-check-circle-fill fs-6"></i>
+                                    </button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL REGISTRAR USUARIO -->
     <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content dc-modal shadow-lg">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-light" id="modalUsuarioLabel">
-                        <i class="bi bi-person-plus-fill text-cyan me-2"></i> Registrar Usuario
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title text-light outfit-bold" id="modalUsuarioLabel">
+                        <i class="bi bi-person-plus-fill text-cyan me-2 opacity-75"></i> Registrar Usuario
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <form id="formUsuario" action="{{ route('usuarios.insertar') }}" method="POST">
                     @csrf
-                    <div class="modal-body">
+                    <div class="modal-body pt-4">
 
                         <div class="mb-3">
-                            <label for="nombre" class="form-label text-muted small fw-bold text-uppercase">Nombre Completo</label>
+                            <label for="nombre" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Nombre Completo</label>
                             <div class="input-group">
-                                <span class="input-group-text dc-addon"><i class="bi bi-person"></i></span>
-                                <input type="text" class="form-control form-control-dc" id="nombre" name="nombre" required maxlength="255" autocomplete="name">
+                                <span class="input-group-text dc-input-addon"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control dc-input outfit-regular" id="nombre" name="nombre" required maxlength="255" autocomplete="name" placeholder="Ej. Juan Pérez">
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="email" class="form-label text-muted small fw-bold text-uppercase">Correo Electrónico</label>
+                            <label for="email" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Correo Electrónico</label>
                             <div class="input-group">
-                                <span class="input-group-text dc-addon"><i class="bi bi-envelope"></i></span>
-                                <input type="email" class="form-control form-control-dc" id="email" name="email" required maxlength="255" autocomplete="email">
+                                <span class="input-group-text dc-input-addon"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control dc-input outfit-regular" id="email" name="email" required maxlength="255" autocomplete="email" placeholder="usuario@itsecure.sv">
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="contrasenha" class="form-label text-muted small fw-bold text-uppercase">Contraseña de Acceso</label>
+                            <label for="contrasenha" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Contraseña de Acceso</label>
                             <div class="input-group">
-                                <span class="input-group-text dc-addon"><i class="bi bi-key"></i></span>
-                                <input type="password" class="form-control form-control-dc" id="contrasenha" name="contrasenha" required minlength="8">
+                                <span class="input-group-text dc-input-addon"><i class="bi bi-key"></i></span>
+                                <input type="password" class="form-control dc-input outfit-regular" id="contrasenha" name="contrasenha" required minlength="8" placeholder="••••••••">
                             </div>
-                            <div class="form-text text-muted" style="font-size: 0.75rem;">Debe contener al menos 8 caracteres.</div>
+                            <div class="form-text text-muted dc-text-micro">Debe contener al menos 8 caracteres.</div>
                         </div>
 
                         @if (isset($roles) && count($roles) > 0)
                             <div class="mb-2">
-                                <label for="roles" class="form-label text-muted small fw-bold text-uppercase">Asignar Roles</label>
-                                <select class="form-select form-select-dc" id="roles" name="roles[]" multiple required style="height: 100px;">
+                                <label for="roles" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Asignar Roles</label>
+                                <select class="form-select dc-input dc-select-multi outfit-regular" id="roles" name="roles[]" multiple required>
                                     @foreach ($roles as $rol)
                                         <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
                                     @endforeach
                                 </select>
-                                <div class="form-text text-muted" style="font-size: 0.75rem;">Usa Ctrl (o Cmd) para seleccionar múltiples roles.</div>
+                                <div class="form-text text-muted dc-text-micro">Usa Ctrl (o Cmd) para seleccionar múltiples roles.</div>
                             </div>
                         @endif
 
                     </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" style="background-color: var(--dc-blue-electric); border: none;">
+                    <div class="modal-footer border-top-0 pt-0">
+                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn dc-btn-primary">
                             <i class="bi bi-save2 me-1"></i> Guardar Usuario
                         </button>
                     </div>
@@ -126,13 +135,12 @@
         </div>
     </div>
 
-    <!-- MODAL EDITAR USUARIO -->
     <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content dc-modal shadow-lg">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-light" id="modalEditarUsuarioLabel">
-                        <i class="bi bi-pencil-square text-cyan me-2"></i> Editar Usuario
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title text-light outfit-bold" id="modalEditarUsuarioLabel">
+                        <i class="bi bi-pencil-square text-cyan me-2 opacity-75"></i> Editar Usuario
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -140,37 +148,37 @@
                 <form id="formEditar" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="modal-body">
+                    <div class="modal-body pt-4">
 
                         <div class="mb-3">
-                            <label for="editar_nombre" class="form-label text-muted small fw-bold text-uppercase">Nombre Completo</label>
+                            <label for="editar_nombre" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Nombre Completo</label>
                             <div class="input-group">
-                                <span class="input-group-text dc-addon"><i class="bi bi-person"></i></span>
-                                <input type="text" class="form-control form-control-dc" id="editar_nombre" name="nombre" required maxlength="255">
+                                <span class="input-group-text dc-input-addon"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control dc-input outfit-regular" id="editar_nombre" name="nombre" required maxlength="255">
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="editar_email" class="form-label text-muted small fw-bold text-uppercase">Correo Electrónico</label>
+                            <label for="editar_email" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Correo Electrónico</label>
                             <div class="input-group">
-                                <span class="input-group-text dc-addon"><i class="bi bi-envelope"></i></span>
-                                <input type="email" class="form-control form-control-dc" id="editar_email" name="email" required maxlength="255">
+                                <span class="input-group-text dc-input-addon"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control dc-input outfit-regular" id="editar_email" name="email" required maxlength="255">
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label for="editar_contrasenha" class="form-label text-muted small fw-bold text-uppercase">Nueva Contraseña (Opcional)</label>
+                            <label for="editar_contrasenha" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Nueva Contraseña (Opcional)</label>
                             <div class="input-group">
-                                <span class="input-group-text dc-addon"><i class="bi bi-key"></i></span>
-                                <input type="password" class="form-control form-control-dc" id="editar_contrasenha" name="contrasenha" minlength="8">
+                                <span class="input-group-text dc-input-addon"><i class="bi bi-key"></i></span>
+                                <input type="password" class="form-control dc-input outfit-regular" id="editar_contrasenha" name="contrasenha" minlength="8" placeholder="••••••••">
                             </div>
-                            <div class="form-text text-muted" style="font-size: 0.75rem;">Dejar en blanco si no desea cambiarla.</div>
+                            <div class="form-text text-muted dc-text-micro">Dejar en blanco si no desea cambiarla.</div>
                         </div>
 
                         @if (isset($roles) && count($roles) > 0)
                             <div class="mb-2">
-                                <label for="editar_roles" class="form-label text-muted small fw-bold text-uppercase">Asignar Roles</label>
-                                <select class="form-select form-select-dc" id="editar_roles" name="roles[]" multiple required style="height: 100px;">
+                                <label for="editar_roles" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Asignar Roles</label>
+                                <select class="form-select dc-input dc-select-multi outfit-regular" id="editar_roles" name="roles[]" multiple required>
                                     @foreach ($roles as $rol)
                                         <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
                                     @endforeach
@@ -179,9 +187,9 @@
                         @endif
 
                     </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" style="background-color: var(--dc-blue-electric); border: none;">
+                    <div class="modal-footer border-top-0 pt-0">
+                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn dc-btn-primary">
                             <i class="bi bi-arrow-repeat me-1"></i> Actualizar Usuario
                         </button>
                     </div>
@@ -190,26 +198,25 @@
         </div>
     </div>
 
-    <!-- MODAL ELIMINAR USUARIO -->
     <div class="modal fade" id="modalEliminarUsuario" tabindex="-1" aria-labelledby="modalEliminarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content dc-modal shadow-lg">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-danger" id="modalEliminarUsuarioLabel">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirmar Eliminación
+            <div class="modal-content dc-modal dc-modal-danger shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title text-danger outfit-bold" id="modalEliminarUsuarioLabel">
+                        <i class="bi bi-exclamation-triangle-fill me-2 opacity-75"></i> Confirmar Inhabilitación
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="formEliminar" method="POST">
                     @csrf
                     @method('DELETE')
-                    <div class="modal-body text-light">
-                        ¿Estás seguro de que deseas eliminar al usuario <strong id="nombreEliminar" class="text-cyan"></strong>?
-                        <p class="text-muted small mt-2 mb-0">Esta acción hará que el usuario quede inhabilitado de sus funciones.</p>
+                    <div class="modal-body text-light pt-4 outfit-regular">
+                        ¿Estás seguro de que deseas inhabilitar al usuario <strong id="nombreEliminar" class="text-danger outfit-semibold"></strong>?
+                        <p class="text-muted small mt-2 mb-0">El usuario no será eliminado físicamente, pero perderá el acceso al sistema (Soft Delete lógico).</p>
                     </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    <div class="modal-footer border-top-0 pt-0 mt-3">
+                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger dc-btn-danger">Inhabilitar Acceso</button>
                     </div>
                 </form>
             </div>
@@ -218,29 +225,28 @@
 
     <div class="modal fade" id="modalActivarUsuario" tabindex="-1" aria-labelledby="modalActivarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content dc-modal shadow-lg">
-                <div class="modal-header border-secondary">
-                    <h5 class="modal-title text-success" id="modalActivarUsuarioLabel">
-                        <i class="bi bi-check me-2"></i> Confirmar Activación
+            <div class="modal-content dc-modal dc-modal-success shadow-lg">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title text-success outfit-bold" id="modalActivarUsuarioLabel">
+                        <i class="bi bi-check-circle-fill me-2 opacity-75"></i> Confirmar Activación
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="formActivar" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="modal-body text-light">
-                        ¿Estás seguro de que deseas activar al usuario <strong id="nombreActivar" class="text-success-emphasis"></strong>?
-                        <p class="text-muted small mt-2 mb-0">Esta acción reactivará todas las funciones que el usuario puede hacer.</p>
+                    <div class="modal-body text-light pt-4 outfit-regular">
+                        ¿Estás seguro de que deseas reactivar al usuario <strong id="nombreActivar" class="text-success outfit-semibold"></strong>?
+                        <p class="text-muted small mt-2 mb-0">El usuario recuperará inmediatamente el acceso al sistema con sus roles asignados.</p>
                     </div>
-                    <div class="modal-footer border-secondary">
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success">Activar</button>
+                    <div class="modal-footer border-top-0 pt-0 mt-3">
+                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success dc-btn-success">Activar Acceso</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('scripts')
@@ -262,7 +268,6 @@
                     $('#editar_nombre').val(usuario.nombre ?? '');
                     $('#editar_email').val(usuario.email ?? '');
 
-                    // Mapear y seleccionar roles si la relación viene en el JSON
                     $('#editar_roles').val([]);
                     if (usuario.roles && usuario.roles.length > 0) {
                         const rolesIds = usuario.roles.map(rol => rol.id);
@@ -272,19 +277,19 @@
                     $('#formEditar').attr('action', urlBase.replace('__ID__', usuario.id));
                 })
                 .fail(function () {
-                    alert('Error al consultar el usuario.');
+                    alert('Error de conexión al consultar el usuario.');
                 });
         }
 
         function eliminarUsuario(id, nombre) {
             const urlBase = "{{ route('usuarios.eliminar', ['usuario' => '__ID__']) }}";
-            $('#nombreEliminar').html(nombre);
+            $('#nombreEliminar').text(nombre);
             $('#formEliminar').attr('action', urlBase.replace('__ID__', id));
         }
 
         function activarUsuario(id, nombre) {
             const urlBase = "{{ route('usuarios.activar', ['usuario' => '__ID__']) }}";
-            $('#nombreActivar').html(nombre);
+            $('#nombreActivar').text(nombre);
             $('#formActivar').attr('action', urlBase.replace('__ID__', id));
         }
     </script>

@@ -30,6 +30,6 @@ class RolMiddleware
             return $next($request);
 
         }
-        return redirect()->route('home')->with('error', 'Acceso denegado');
+        return redirect()->route('home')->with('error', 'Acceso denegado.');
     }
 }

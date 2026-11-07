@@ -1,43 +1,40 @@
-<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-4" style="z-index: 1056;" data-bs-theme="light">
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-4 dc-toast-wrapper" data-bs-theme="dark">
     @foreach (['success', 'error', 'warning', 'info'] as $msgType)
         @if(session($msgType))
             @php
-                $themeClass = '';
-                $iconClass = '';
-                $title = '';
+                $themeClass = match($msgType) {
+                    'success' => 'dc-toast-success',
+                    'error' => 'dc-toast-error',
+                    'warning' => 'dc-toast-warning',
+                    'info' => 'dc-toast-info',
+                    default => ''
+                };
 
-                switch($msgType) {
-                    case 'success':
-                        $themeClass = 'dc-toast-success';
-                        $iconClass = 'bi bi-check-circle-fill text-success';
-                        $title = 'Éxito';
-                        break;
-                    case 'error':
-                        $themeClass = 'dc-toast-error';
-                        $iconClass = 'bi bi-x-circle-fill text-danger';
-                        $title = 'Error';
-                        break;
-                    case 'warning':
-                        $themeClass = 'dc-toast-warning';
-                        $iconClass = 'bi bi-exclamation-triangle-fill text-warning';
-                        $title = 'Advertencia';
-                        break;
-                    case 'info':
-                        $themeClass = 'dc-toast-info';
-                        $iconClass = 'bi bi-info-circle-fill text-info';
-                        $title = 'Información';
-                        break;
-                }
+                $iconClass = match($msgType) {
+                    'success' => 'bi bi-check-circle-fill text-success',
+                    'error' => 'bi bi-x-circle-fill text-danger',
+                    'warning' => 'bi bi-exclamation-triangle-fill text-warning',
+                    'info' => 'bi bi-info-circle-fill text-info',
+                    default => ''
+                };
+
+                $title = match($msgType) {
+                    'success' => 'Éxito',
+                    'error' => 'Error',
+                    'warning' => 'Advertencia',
+                    'info' => 'Información',
+                    default => ''
+                };
             @endphp
 
             <div class="toast {{ $themeClass }} shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header border-bottom-0 pb-0">
                     <i class="{{ $iconClass }} fs-5 me-2"></i>
-                    <strong class="me-auto text-light">{{ $title }}</strong>
-                    <small class="text-muted">Justo ahora</small>
+                    <strong class="me-auto text-light outfit-bold">{{ $title }}</strong>
+                    <small class="text-muted outfit-light">Justo ahora</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Cerrar"></button>
                 </div>
-                <div class="toast-body pt-2 text-light">
+                <div class="toast-body pt-2 text-light outfit-regular">
                     {{ session($msgType) }}
                 </div>
             </div>
@@ -49,11 +46,11 @@
             <div class="toast dc-toast-error shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header border-bottom-0 pb-0">
                     <i class="bi bi-x-circle-fill text-danger fs-5 me-2"></i>
-                    <strong class="me-auto text-light">Error de validación</strong>
-                    <small class="text-muted">Justo ahora</small>
+                    <strong class="me-auto text-light outfit-bold">Error de validación</strong>
+                    <small class="text-muted outfit-light">Justo ahora</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Cerrar"></button>
                 </div>
-                <div class="toast-body pt-2 text-light">
+                <div class="toast-body pt-2 text-light outfit-regular">
                     {{ $error }}
                 </div>
             </div>

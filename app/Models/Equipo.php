@@ -40,7 +40,7 @@ class Equipo extends Model
         'eliminado_por' => 'integer'
     ];
 
-    private static function validaciones($id = null): array
+    public static function validaciones($id = null): array
     {
         return [
             'centros_de_computo_id' => ['required', 'integer', 'exists:centros_de_computo,id'],
@@ -100,5 +100,10 @@ class Equipo extends Model
     public function scopeVencidos($query)
     {
         return $query->whereRaw('DATE_ADD(fecha_ultimo_mantenimiento, INTERVAL dias_frecuencia_mantenimiento DAY) < CURDATE()');
+    }
+
+    public static function insertar($datos): Equipo
+    {
+       return Equipo::create($datos);
     }
 }

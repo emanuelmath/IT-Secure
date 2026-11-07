@@ -1,0 +1,83 @@
+.home-hero-card {
+    border-top: 3px solid var(--dc-cyan);
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.04) 0%, transparent 100%);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.home-hero-avatar {
+    width: 86px;
+    height: 86px;
+    font-size: 2.5rem;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    box-shadow: 0 0 25px var(--dc-glow);
+    border-radius: 50%;
+}
+
+.dc-hover-lift-link {
+    display: block;
+}
+
+.home-quick-link-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, background-color 0.4s ease, border-color 0.4s ease;
+    border-radius: 16px;
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+}
+
+.dc-hover-lift-link:hover .home-quick-link-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 255, 255, 0.02);
+}
+
+.border-cyan-link { border: 1px solid rgba(56, 189, 248, 0.2); }
+.border-orange-link { border: 1px solid rgba(245, 158, 11, 0.2); }
+.border-green-link { border: 1px solid rgba(16, 185, 129, 0.2); }
+.border-blue-link { border: 1px solid rgba(59, 130, 246, 0.2); }
+
+.dc-hover-lift-link:hover .border-cyan-link { border-color: rgba(56, 189, 248, 0.5); }
+.dc-hover-lift-link:hover .border-orange-link { border-color: rgba(245, 158, 11, 0.5); }
+.dc-hover-lift-link:hover .border-green-link { border-color: rgba(16, 185, 129, 0.5); }
+.dc-hover-lift-link:hover .border-blue-link { border-color: rgba(59, 130, 246, 0.5); }
+
+.home-icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    font-size: 1.6rem;
+    margin-right: 1.25rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dc-hover-lift-link:hover .home-icon-circle {
+    background-color: rgba(255, 255, 255, 0.08);
+    transform: scale(1.05);
+}
+
+.icon-cyan { color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+.icon-orange { color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+.icon-green { color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+.icon-blue { color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+.dc-list-group .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.home-notice-time {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    padding: 0.35em 0.6em;
+}
+
+.home-notice-footer {
+    border-top: 1px solid var(--dc-border) !important;
+    background: transparent;
+}

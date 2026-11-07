@@ -4,206 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bienvenido a IT-Secure</title>
-    <style>
-        body.it-secure-email-body {
-            margin: 0;
-            padding: 0;
-            background-color: #070b13;
-            color: #f1f5f9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            line-height: 1.6;
-        }
-
-        .email-wrapper {
-            width: 100%;
-            background-color: #070b13;
-            padding: 40px 15px;
-            box-sizing: border-box;
-        }
-
-        .email-container {
-            max-width: 560px;
-            margin: 0 auto;
-            background-color: #111a2e;
-            border: 1px solid #1e3a5f;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
-        }
-
-        /* Cabecera NOC */
-        .email-header {
-            background-color: #0c1220;
-            padding: 24px 32px;
-            border-bottom: 1px solid #1e293b;
-            text-align: center;
-        }
-
-        .brand-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            border-radius: 8px;
-            background-color: #122444;
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
-            font-weight: 700;
-            font-size: 16px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .brand-sub {
-            display: block;
-            margin-top: 8px;
-            font-size: 11px;
-            color: #8493a8;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-
-        /* Cuerpo del Correo */
-        .email-body {
-            padding: 32px;
-        }
-
-        .welcome-title {
-            margin: 0 0 12px 0;
-            font-size: 20px;
-            font-weight: 600;
-            color: #f1f5f9;
-        }
-
-        .welcome-text {
-            margin: 0 0 24px 0;
-            font-size: 14px;
-            color: #8493a8;
-        }
-
-        .credentials-box {
-            background-color: #0c1220;
-            border: 1px solid #1e293b;
-            border-left: 4px solid #38bdf8;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 28px;
-        }
-
-        .credential-row {
-            margin-bottom: 16px;
-        }
-
-        .credential-row-last {
-            margin-bottom: 0;
-        }
-
-        .credential-label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #8493a8;
-            margin-bottom: 6px;
-        }
-
-        .credential-value {
-            font-family: "Cascadia Code", Consolas, Monaco, "Courier New", monospace;
-            font-size: 15px;
-            font-weight: 600;
-            color: #38bdf8;
-            background-color: #111a2e;
-            border: 1px solid #1e3a5f;
-            padding: 6px 12px;
-            border-radius: 4px;
-            display: inline-block;
-            word-break: break-all;
-        }
-
-        .btn-container {
-            text-align: center;
-            margin: 28px 0 10px 0;
-        }
-
-        .btn-access {
-            display: inline-block;
-            background-color: #2563eb;
-            color: #ffffff !important;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 12px 28px;
-            border-radius: 6px;
-            border: 1px solid #38bdf8;
-        }
-
-        .security-note {
-            font-size: 12px;
-            color: #8493a8;
-            border-top: 1px solid #1e293b;
-            padding-top: 16px;
-            margin-top: 24px;
-            text-align: center;
-        }
-
-        .email-footer {
-            background-color: #0c1220;
-            border-top: 1px solid #1e293b;
-            padding: 18px 32px;
-            text-align: center;
-            font-size: 12px;
-            color: #8493a8;
-        }
-    </style>
 </head>
-<body class="it-secure-email-body">
+<body style="margin: 0; padding: 0; background-color: #030712; color: #f8fafc; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; -webkit-font-smoothing: antialiased; line-height: 1.6;">
 
-<div class="email-wrapper">
-    <div class="email-container">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #030712; padding: 40px 15px;">
+    <tr>
+        <td align="center">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 580px; background-color: #111827; border: 1px solid rgba(255, 255, 255, 0.07); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);">
 
-        <div class="email-header">
-            <span class="brand-badge">IT-SECURE</span>
-            <span class="brand-sub">Sistema de Monitoreo y Gestión de Activos TI</span>
-        </div>
+                <tr>
+                    <td align="center" style="background-color: #090e17; padding: 32px 32px; border-bottom: 1px solid rgba(255, 255, 255, 0.07);">
+                        <div style="display: inline-block; padding: 8px 16px; border-radius: 10px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(56, 189, 248, 0.1)); border: 1px solid rgba(56, 189, 248, 0.2); color: #38bdf8; font-weight: 700; font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;">
+                            IT-SECURE
+                        </div>
+                        <div style="margin-top: 12px; font-size: 11px; color: #94a3b8; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;">
+                            Protección & Mantenimiento IT
+                        </div>
+                    </td>
+                </tr>
 
-        <div class="email-body">
-            <h1 class="welcome-title">
-                ¡Bienvenido(a), {{ $nombre ?? 'Usuario' }}!
-            </h1>
+                <tr>
+                    <td style="padding: 40px 32px;">
+                        <h1 style="margin: 0 0 16px 0; font-size: 22px; font-weight: 600; color: #f8fafc; letter-spacing: 0.02em;">
+                            ¡Bienvenido(a), <span style="color: #38bdf8;">{{ $nombre ?? 'Usuario' }}</span>!
+                        </h1>
+                        <p style="margin: 0 0 32px 0; font-size: 15px; color: #94a3b8; font-weight: 300;">
+                            Tu cuenta ha sido registrada en la plataforma <strong style="color: #f8fafc; font-weight: 500;">IT-Secure</strong>. A continuación se detallan tus credenciales de acceso seguro:
+                        </p>
 
-            <p class="welcome-text">
-                Tu cuenta ha sido registrada en la plataforma <strong style="color: #f1f5f9;">IT-Secure</strong>. A continuación se detallan tus credenciales para iniciar sesión:
-            </p>
+                        <div style="background-color: #030712; border: 1px solid rgba(255, 255, 255, 0.07); border-left: 3px solid #38bdf8; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+                            <div style="margin-bottom: 20px;">
+                                <span style="display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; margin-bottom: 8px;">Correo Electrónico</span>
+                                <span style="font-family: 'Cascadia Code', Consolas, monospace; font-size: 15px; font-weight: 600; color: #f8fafc; background-color: #111827; border: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 14px; border-radius: 6px; display: inline-block; word-break: break-all;">{{ $email }}</span>
+                            </div>
+                            <div>
+                                <span style="display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; margin-bottom: 8px;">Contraseña Temporal</span>
+                                <span style="font-family: 'Cascadia Code', Consolas, monospace; font-size: 15px; font-weight: 600; color: #38bdf8; background-color: #111827; border: 1px solid rgba(56, 189, 248, 0.2); padding: 8px 14px; border-radius: 6px; display: inline-block; word-break: break-all;">{{ $password }}</span>
+                            </div>
+                        </div>
 
-            <div class="credentials-box">
-                <div class="credential-row">
-                    <span class="credential-label">Correo Electrónico</span>
-                    <span class="credential-value">{{ $email }}</span>
-                </div>
+                        <div style="text-align: center; margin: 32px 0 16px 0;">
+                            <a href="{{ url('/login') }}" style="display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #38bdf8 100%); color: #ffffff; text-decoration: none; font-size: 15px; font-weight: 600; padding: 14px 32px; border-radius: 8px; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);">
+                                Iniciar Sesión en IT-Secure
+                            </a>
+                        </div>
 
-                <div class="credential-row-last">
-                    <span class="credential-label">Contraseña Temporal</span>
-                    <span class="credential-value">{{ $password }}</span>
-                </div>
-            </div>
+                        <p style="font-size: 13px; color: #94a3b8; font-weight: 300; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 24px; margin-top: 32px; text-align: center;">
+                            Por protocolos de seguridad operativa, te requerimos actualizar tu contraseña al ingresar por primera vez.
+                        </p>
+                    </td>
+                </tr>
 
-            <div class="btn-container">
-                <a href="{{ url('/login') }}" class="btn-access">
-                    Iniciar Sesión en IT-Secure
-                </a>
-            </div>
+                <tr>
+                    <td align="center" style="background-color: #090e17; border-top: 1px solid rgba(255, 255, 255, 0.07); padding: 24px 32px; font-size: 12px; color: #475569; font-weight: 400;">
+                        &copy; {{ date('Y') }} IT-Secure &mdash; Mensaje automático de infraestructura, no responder a esta dirección.
+                    </td>
+                </tr>
 
-            <p class="security-note">
-                Por seguridad, te recomendamos actualizar tu contraseña al ingresar por primera vez.
-            </p>
-        </div>
-
-        <div class="email-footer">
-            &copy; {{ date('Y') }} IT-Secure &mdash; Mensaje automático del sistema, por favor no responder.
-        </div>
-
-    </div>
-</div>
-
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

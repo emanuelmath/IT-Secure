@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InsertarEquipoRequest;
 use Illuminate\Http\Request;
 use App\Exports\EquiposExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -36,5 +37,12 @@ class EquipoController extends Controller
             ->setPaper('letter', 'portrait');
 
         return $pdf->stream("Ficha_Tecnica_{$equipo->codigo_inventario}.pdf");
+    }
+
+    public function agregarEquipo(InsertarEquipoRequest $request)
+    {
+        $datos = $request->validated();
+        $equipo = Equipo::insertar($datos);
+        return redirect()->route('equipos')->with('success', "Equipo {$equipo->nombre} ingresado correctamente.");
     }
 }
