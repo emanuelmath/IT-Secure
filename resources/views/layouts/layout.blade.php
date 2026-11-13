@@ -85,14 +85,13 @@
                 <ul class="nav sidebar-menu flex-column">
                     <li class="nav-header">Monitoreo & Infraestructura</li>
 
-                    <!-- Atributo data-tooltip agregado a cada enlace -->
                     <li class="nav-item">
                         <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" data-tooltip="Inicio">
                             <i class="bi bi-grid-1x2 nav-icon"></i> <span class="nav-text">Inicio</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-tooltip="Sedes & Sucursales">
+                        <a href="{{ route('sedes') }}" class="nav-link {{ request()->routeIs('sedes*') ? 'active' : '' }}" class="nav-link" data-tooltip="Sedes & Sucursales">
                             <i class="bi bi-buildings nav-icon"></i> <span class="nav-text">Sedes & Sucursales</span>
                         </a>
                     </li>

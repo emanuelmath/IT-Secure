@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -44,5 +45,10 @@ class Sede extends Model
     public function centrosDeComputo(): HasMany
     {
         return $this->hasMany(CentroComputo::class, 'sede_id');
+    }
+
+    public static function obtenerSedes(): Collection
+    {
+        return self::all();
     }
 }

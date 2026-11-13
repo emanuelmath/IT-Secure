@@ -40,6 +40,7 @@ Route::middleware(['auth', 'prevent-back', "rol:{$roles[0]}"])->group(function()
 //delete
     Route::delete('usuarios/{usuario}', [UserController::class, 'eliminarUsuario'])->name('usuarios.eliminar');
 
+    Route::get('sedes', [\App\Http\Controllers\SedeController::class, 'index'])->name('sedes');
 });
 
 Route::middleware(['auth', 'prevent-back', "rol:{$roles[0]},{$roles[1]}"])->group(function() {
