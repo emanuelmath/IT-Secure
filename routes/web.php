@@ -52,5 +52,5 @@ Route::middleware(['auth', 'prevent-back', "rol:{$roles[0]},{$roles[1]}"])->grou
 
     Route::get('equipos', [EquipoController::class, 'index'])->name('equipos');
 
-    Route::post('equipos/{equipo}', [EquipoController::class, 'agregarEquipo'])->name("equipos.insertar");
+    Route::post('equipos', [EquipoController::class, 'agregarEquipo'])->name("equipos.insertar");
 });
