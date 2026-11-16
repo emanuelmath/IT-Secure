@@ -44,7 +44,9 @@ class User extends Authenticatable
             'email_verificado_hace' => ['nullable', 'date'],
             'contrasenha' => $id ? ['nullable', 'string', 'min:8'] : ['required', 'string', 'min:8'],
             'roles' => ['required', 'array'],
-            'roles.*' => ['integer']
+            'roles.*' => ['integer'],
+            'centros' => ['nullable', 'array'],
+            'centros.*' => ['integer', 'exists:centros_de_computo,id']
         ];
     }
 
@@ -126,6 +128,7 @@ class User extends Authenticatable
 
             $roles = $datos['roles'] ?? [];
             unset($datos['roles']);
+            unset($datos['centros']);
 
             $user = self::create($datos);
             if (!empty($roles)) {
@@ -137,7 +140,7 @@ class User extends Authenticatable
     }
 
     public static function buscarPorId($id): ?User {
-        return User::with('roles')->find($id);
+        return User::with(['roles', 'centrosDeComputo'])->find($id);
     }
 
     public static function actualizar($id, $datos): bool
@@ -153,7 +156,9 @@ class User extends Authenticatable
 
         return DB::transaction(function () use ($usuario, $datos) {
             $roles = $datos['roles'] ?? [];
+
             unset($datos['roles']);
+            unset($datos['centros']);
 
             $usuario->update($datos);
             $usuario->roles()->sync($roles);

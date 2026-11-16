@@ -40,7 +40,9 @@
                                             <td class="text-light outfit-regular">{{ $equipo->marca }} {{ $equipo->modelo }}</td>
                                             <td class="text-muted outfit-medium">{{ $equipo->centroDeComputo->nombre ?? 'Sin Sede' }}</td>
                                             <td class="text-center">
-                                                <button class="btn btn-sm btn-outline-danger dc-btn-xs rounded-pill px-4 outfit-semibold">Agendar</button>
+                                                <a href="{{ route('mantenimientos') }}" class="btn btn-sm btn-outline-danger dc-btn-xs rounded-pill px-4 outfit-semibold">
+                                                    Agendar
+                                                </a>
                                             </td>
                                         </tr>
                                     @empty

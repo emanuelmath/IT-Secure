@@ -20,7 +20,7 @@
         <div class="container-fluid px-0">
             <ul class="navbar-nav align-items-center gap-3">
                 <li class="nav-item">
-                    <a class="nav-link toggle-btn p-0" id="menuHamburguesaToggle" href="#" role="button" style="color: var(--dc-text-main); transition: color 0.3s ease;">
+                    <a class="nav-link toggle-btn p-0" id="menuHamburguesaToggle" href="#" role="button">
                         <i class="bi bi-list fs-4"></i>
                     </a>
                 </li>
@@ -31,7 +31,26 @@
                 </li>
             </ul>
 
-            <ul class="navbar-nav ms-auto align-items-center gap-4">
+            <ul class="navbar-nav ms-auto align-items-center gap-3 gap-lg-4">
+                @if(auth()->check() && auth()->user()->tieneRol('Administrador'))
+                    <li class="nav-item d-none d-md-block">
+                        <form action="{{ route('contexto.empresa') }}" method="POST" id="formContextoEmpresa" class="d-flex align-items-center gap-2">
+                            @csrf
+                            <label for="selectContextoEmpresa" class="text-muted text-uppercase dc-text-micro mb-0">
+                                <i class="bi bi-building text-cyan"></i>
+                            </label>
+                            <select name="empresa_id" id="selectContextoEmpresa" class="form-select form-select-sm dc-input" onchange="this.form.submit()">
+                                <option value="">Todas las Empresas (Global)</option>
+                                @foreach(\App\Models\Empresa::mostrarTodos() as $empContext)
+                                    <option value="{{ $empContext->id }}" {{ session('empresa_activa_id') == $empContext->id ? 'selected' : '' }}>
+                                        {{ $empContext->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </li>
+                @endif
+
                 <li class="nav-item d-none d-sm-flex align-items-center">
                     <span class="status-indicator-live"></span>
                     <span class="status-label text-uppercase">Sistema en línea</span>
@@ -42,8 +61,8 @@
                         <div class="avatar-shield">
                             <i class="bi bi-person-fill fs-5"></i>
                         </div>
-                        <span class="d-none d-md-inline text-light outfit-medium" style="font-size: 0.9rem;">
-                            {{ \Illuminate\Support\Facades\Auth::user()->nombre ?? 'Administrador' }}
+                        <span class="d-none d-md-inline text-light outfit-medium">
+                            {{ \Illuminate\Support\Facades\Auth::user()->nombre ?? 'Usuario' }}
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg dc-dropdown mt-3 border-0">
@@ -91,37 +110,67 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('sedes') }}" class="nav-link {{ request()->routeIs('sedes*') ? 'active' : '' }}" class="nav-link" data-tooltip="Sedes & Sucursales">
-                            <i class="bi bi-buildings nav-icon"></i> <span class="nav-text">Sedes & Sucursales</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('equipos') }}" class="nav-link {{ request()->routeIs('equipos*') ? 'active' : '' }}" data-tooltip="Equipos">
-                            <i class="bi bi-pc-display-horizontal nav-icon"></i> <span class="nav-text">Equipos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('usuarios') }}" class="nav-link {{ request()->routeIs('usuarios*') ? 'active' : '' }}" data-tooltip="Usuarios">
-                            <i class="bi bi-people nav-icon"></i> <span class="nav-text">Usuarios</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" data-tooltip="Dashboard">
                             <i class="bi bi-speedometer2 nav-icon"></i> <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
 
+                    @if(auth()->check() && auth()->user()->tieneRol('Administrador'))
+                        <li class="nav-item">
+                            <a href="{{ route('empresas') }}" class="nav-link {{ request()->routeIs('empresas*') ? 'active' : '' }}" data-tooltip="Empresas">
+                                <i class="bi bi-building nav-icon"></i> <span class="nav-text">Empresas</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('sedes') }}" class="nav-link {{ request()->routeIs('sedes*') ? 'active' : '' }}" data-tooltip="Sedes & Sucursales">
+                                <i class="bi bi-buildings nav-icon"></i> <span class="nav-text">Sedes & Sucursales</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('centros') }}" class="nav-link {{ request()->routeIs('centros*') ? 'active' : '' }}" data-tooltip="Centros de Cómputo">
+                                <i class="bi bi-hdd-network nav-icon"></i> <span class="nav-text">Centros de Cómputo</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(auth()->check() && (auth()->user()->tieneRol('Administrador') || auth()->user()->tieneRol('Supervisor')))
+                        <li class="nav-item">
+                            <a href="{{ route('equipos') }}" class="nav-link {{ request()->routeIs('equipos*') ? 'active' : '' }}" data-tooltip="Equipos">
+                                <i class="bi bi-pc-display-horizontal nav-icon"></i> <span class="nav-text">Equipos</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(auth()->check() && auth()->user()->tieneRol('Administrador'))
+                        <li class="nav-item">
+                            <a href="{{ route('usuarios') }}" class="nav-link {{ request()->routeIs('usuarios*') ? 'active' : '' }}" data-tooltip="Usuarios">
+                                <i class="bi bi-people nav-icon"></i> <span class="nav-text">Usuarios</span>
+                            </a>
+                        </li>
+                    @endif
+
                     <li class="nav-header mt-3">Mantenimiento y Control</li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" data-tooltip="Mantenimiento Prev.">
-                            <i class="bi bi-wrench-adjustable nav-icon"></i> <span class="nav-text">Mantenimiento Prev.</span>
+                        <a href="{{ route('mantenimientos') }}" class="nav-link {{ request()->routeIs('mantenimientos*') ? 'active' : '' }}" data-tooltip="Mantenimientos">
+                            <i class="bi bi-wrench-adjustable nav-icon"></i> <span class="nav-text">Mantenimientos</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" data-tooltip="Incidentes">
-                            <i class="bi bi-shield-exclamation nav-icon"></i> <span class="nav-text">Incidentes</span>
-                        </a>
-                    </li>
+
+                    @if(auth()->check() && (auth()->user()->tieneRol('Administrador') || auth()->user()->tieneRol('Supervisor')))
+                        <li class="nav-item">
+                            <a href="{{ route('traslados') }}" class="nav-link {{ request()->routeIs('traslados*') ? 'active' : '' }}" data-tooltip="Traslados">
+                                <i class="bi bi-arrow-left-right nav-icon"></i> <span class="nav-text">Traslados</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    @if(auth()->check() && auth()->user()->tieneRol('Administrador'))
+                        <li class="nav-item">
+                            <a href="{{ route('bitacoras') }}" class="nav-link {{ request()->routeIs('bitacoras*') ? 'active' : '' }}" data-tooltip="Bitácoras">
+                                <i class="bi bi-journal-code nav-icon"></i> <span class="nav-text">Bitácoras</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </nav>
         </div>
@@ -168,7 +217,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/layout-ajax-script.js') }}"></script>
 <script src="{{ asset('js/toast.js') }}"></script>
-
 
 @stack('scripts')
 </body>

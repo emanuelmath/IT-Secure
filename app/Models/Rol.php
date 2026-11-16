@@ -34,7 +34,7 @@ class Rol extends Model
 
     public function usuarios(): BelongsToMany
     {
-        return $this->belongsToMany(Usuario::class, 'roles_usuarios', 'rol_id', 'usuario_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'roles_usuarios', 'rol_id', 'usuario_id')->withTimestamps();
     }
 
     public static function obtenerTodos(): Collection

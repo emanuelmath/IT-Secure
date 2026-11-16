@@ -64,8 +64,8 @@
                                     {{ $eq->centroDeComputo->sede->nombre ?? 'N/A' }}
                                 </small>
                             </td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
+                            <td class="text-nowrap">
+                                <div class="d-flex justify-content-center align-items-center gap-2">
                                     <a href="{{ route('equipos.ficha.pdf', $eq->id) }}" target="_blank" class="btn btn-sm btn-outline-info dc-btn-icon" title="Descargar Ficha Técnica">
                                         <i class="bi bi-file-earmark-pdf-fill fs-6"></i>
                                     </a>
@@ -114,7 +114,7 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Código de Inventario</label>
-                                <input type="text" name="codigo_inventario" class="form-control dc-input" required>
+                                <input type="text" name="codigo_inventario" class="form-control dc-input font-monospace" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Tipo de Equipo</label>
@@ -123,8 +123,9 @@
                                     <option value="desktop">Desktop</option>
                                     <option value="laptop">Laptop</option>
                                     <option value="servidor">Servidor</option>
+                                    <option value="router">Router</option>
+                                    <option value="switch">Switch</option>
                                     <option value="impresora">Impresora</option>
-                                    <option value="switch">Switch/Router</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -137,7 +138,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Número de Serie</label>
-                                <input type="text" name="numero_serie" class="form-control dc-input">
+                                <input type="text" name="numero_serie" class="form-control dc-input font-monospace">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Estado</label>
@@ -145,18 +146,22 @@
                                     <option value="operativo">Operativo</option>
                                     <option value="mantenimiento">En Mantenimiento</option>
                                     <option value="averiado">Averiado</option>
-                                    <option value="baja">Dado de Baja</option>
+                                    <option value="baja_definitiva">Baja Definitiva</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Frecuencia de Mantenimiento (Días)</label>
-                                <input type="number" name="dias_frecuencia_mantenimiento" class="form-control dc-input" min="1" value="180">
+                                <input type="number" name="dias_frecuencia_mantenimiento" class="form-control dc-input" min="1" value="180" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Centro de Cómputo</label>
                                 <select name="centros_de_computo_id" class="form-select dc-input" required>
                                     <option value="" disabled selected>Seleccione Ubicación...</option>
-                                    <!--  foreach de los centros de cómputo disponibles -->
+                                    @foreach($centros ?? [] as $centro)
+                                        <option value="{{ $centro->id }}">
+                                            [{{ $centro->codigo }}] {{ $centro->nombre }} ({{ $centro->sede->nombre ?? '' }})
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -178,14 +183,14 @@
                     <h5 class="modal-title outfit-semibold text-white"><i class="bi bi-pencil-square text-cyan me-2"></i> Editar Equipo <span id="editTitleCode" class="text-cyan font-monospace"></span></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formEditarEquipo" action="" method="POST">
+                <form id="formEditarEquipo" action="#" method="POST" data-action-template="{{ route('equipos.actualizar', ['equipo' => '__ID__']) }}">
                     @csrf
                     @method('PUT')
                     <div class="modal-body p-4">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Código de Inventario</label>
-                                <input type="text" name="codigo_inventario" id="edit_codigo_inventario" class="form-control dc-input" required>
+                                <input type="text" name="codigo_inventario" id="edit_codigo_inventario" class="form-control dc-input font-monospace" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Tipo de Equipo</label>
@@ -193,8 +198,9 @@
                                     <option value="desktop">Desktop</option>
                                     <option value="laptop">Laptop</option>
                                     <option value="servidor">Servidor</option>
+                                    <option value="router">Router</option>
+                                    <option value="switch">Switch</option>
                                     <option value="impresora">Impresora</option>
-                                    <option value="switch">Switch/Router</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
@@ -207,7 +213,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Número de Serie</label>
-                                <input type="text" name="numero_serie" id="edit_numero_serie" class="form-control dc-input">
+                                <input type="text" name="numero_serie" id="edit_numero_serie" class="form-control dc-input font-monospace">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Estado</label>
@@ -215,17 +221,22 @@
                                     <option value="operativo">Operativo</option>
                                     <option value="mantenimiento">En Mantenimiento</option>
                                     <option value="averiado">Averiado</option>
-                                    <option value="baja">Dado de Baja</option>
+                                    <option value="baja_definitiva">Baja Definitiva</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Frecuencia de Mantenimiento (Días)</label>
-                                <input type="number" name="dias_frecuencia_mantenimiento" id="edit_dias_frecuencia_mantenimiento" class="form-control dc-input" min="1">
+                                <input type="number" name="dias_frecuencia_mantenimiento" id="edit_dias_frecuencia_mantenimiento" class="form-control dc-input" min="1" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Centro de Cómputo</label>
                                 <select name="centros_de_computo_id" id="edit_centros_de_computo_id" class="form-select dc-input" required>
-                                    <!-- Opciones de centros -->
+                                    <option value="" disabled>Seleccione Ubicación...</option>
+                                    @foreach($centros ?? [] as $centro)
+                                        <option value="{{ $centro->id }}">
+                                            [{{ $centro->codigo }}] {{ $centro->nombre }} ({{ $centro->sede->nombre ?? '' }})
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -245,11 +256,11 @@
             <div class="modal-content">
                 <div class="modal-body p-4 text-center">
                     <div class="mb-4 mt-2">
-                        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 3rem;"></i>
+                        <i class="bi bi-exclamation-triangle text-danger dc-text-huge"></i>
                     </div>
                     <h5 class="text-white outfit-semibold mb-3">¿Eliminar Equipo?</h5>
-                    <p class="text-muted mb-4">¿Estás seguro que deseas eliminar permanentemente el equipo con código <strong id="deleteCode" class="text-white font-monospace"></strong>? Esta acción no se puede deshacer.</p>
-                    <form id="formEliminarEquipo" action="#" method="POST">
+                    <p class="text-muted mb-4">¿Estás seguro que deseas dar de baja el equipo con código <strong id="deleteCode" class="text-white font-monospace"></strong>?</p>
+                    <form id="formEliminarEquipo" action="#" method="POST" data-action-template="{{ route('equipos.eliminar', ['equipo' => '__ID__']) }}">
                         @csrf
                         @method('DELETE')
                         <div class="d-flex justify-content-center gap-3">
@@ -267,45 +278,5 @@
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
     <script src="{{ asset('js/dataTable.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            if ($('#tbl').length && !$.fn.DataTable.isDataTable('#tbl')) {
-                $('#tbl').DataTable({
-                    language: {
-                        url: "//cdn.datatables.net/plug-ins/1.13.8/i18n/es-ES.json"
-                    }
-                });
-            }
-
-            // Lógica para poblar Modal de Edición
-            $('.btn-editar').on('click', function() {
-                const btn = $(this);
-                const id = btn.data('id');
-
-                $('#editTitleCode').text(btn.data('codigo'));
-                $('#edit_codigo_inventario').val(btn.data('codigo'));
-                $('#edit_tipo').val(btn.data('tipo'));
-                $('#edit_marca').val(btn.data('marca'));
-                $('#edit_modelo').val(btn.data('modelo'));
-                $('#edit_numero_serie').val(btn.data('serie'));
-                $('#edit_estado').val(btn.data('estado'));
-                $('#edit_dias_frecuencia_mantenimiento').val(btn.data('frecuencia'));
-                $('#edit_centros_de_computo_id').val(btn.data('centro'));
-
-                // Ajustar action del form dinámicamente si tienes ruta definida
-                // $('#formEditarEquipo').attr('action', `/equipos/${id}`);
-            });
-
-            // Lógica para poblar Modal de Eliminación
-            $('.btn-eliminar').on('click', function() {
-                const btn = $(this);
-                const id = btn.data('id');
-
-                $('#deleteCode').text(btn.data('codigo'));
-
-                // Ajustar action del form dinámicamente si tienes ruta definida
-                // $('#formEliminarEquipo').attr('action', `/equipos/${id}`);
-            });
-        });
-    </script>
-@endpush
+    <script src="{{ asset('js/equipos-ajax-script.js') }}"></script>
+@endpus

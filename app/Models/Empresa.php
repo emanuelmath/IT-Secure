@@ -55,8 +55,10 @@ class Empresa extends Model
     public static function buscarPorNombre($nombre): Empresa
     {
         return self::where('nombre', 'like', "%{$nombre}%")->get();
-
-
+    }
+    public static function obtenerEmpresas(): Collection
+    {
+        return self::all();
     }
 }
 

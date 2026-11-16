@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FiltrablePorContexto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 
 class HistorialTraslado extends Model
 {
+    use FiltrablePorContexto;
+
     protected $table = 'historial_traslados';
 
     protected $fillable = [

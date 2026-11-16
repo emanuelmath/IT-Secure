@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Empresa;
+use App\Models\Bitacora;
 use App\Models\Equipo;
 use App\Models\HistorialTraslado;
 use App\Models\Mantenimiento;
@@ -11,7 +11,18 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home.home');
+        $totalVencidos = Equipo::vencidos()->count();
+        $ultimasBitacoras = Bitacora::with('usuario')
+            ->orderByDesc('created_at')
+            ->take(3)
+            ->get();
+
+        return view('home.home', compact('totalVencidos', 'ultimasBitacoras'));
+    }
+
+    public function acerca()
+    {
+        return view('home.acerca');
     }
 
     public function dashboard()

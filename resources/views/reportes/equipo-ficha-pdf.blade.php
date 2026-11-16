@@ -164,7 +164,7 @@
         <td class="info-label">Frecuencia Mant.:</td>
         <td class="info-val">
             Cada {{ $equipo->dias_frecuencia_mantenimiento }} días<br>
-            <span style="font-size:9px; color:#64748b;">(Último: {{ $equipo->fecha_ultimo_mantenimiento ?? 'N/A' }})</span>
+            <span style="font-size:9px; color:#64748b;">(Último: {{ optional($equipo->fecha_ultimo_mantenimiento)->format('d/m/Y') ?? 'Sin registro' }})</span>
         </td>
     </tr>
 </table>
@@ -183,7 +183,7 @@
     <tbody>
     @forelse($equipo->mantenimientos as $mant)
         <tr>
-            <td style="color: #94a3b8;">{{ $mant->fecha_mantenimiento }}</td>
+            <td style="color: #94a3b8;">{{ optional($mant->fecha_mantenimiento)->format('d/m/Y') ?? $mant->fecha_mantenimiento }}</td>
             <td><strong style="color: #f8fafc;">{{ ucfirst($mant->tipo) }}</strong></td>
             <td>{{ $mant->descripcion_trabajo }}</td>
             <td style="color: #94a3b8;">{{ $mant->piezas_reemplazadas ?: 'Ninguna' }}</td>
@@ -213,11 +213,11 @@
     <tbody>
     @forelse($equipo->traslados as $traslado)
         <tr>
-            <td style="color: #94a3b8;">{{ $traslado->fecha_traslado }}</td>
+            <td style="color: #94a3b8;">{{ optional($traslado->fecha_traslado)->format('d/m/Y') ?? $traslado->fecha_traslado }}</td>
             <td>{{ $traslado->centroOrigen->nombre ?? 'N/A' }}</td>
             <td><strong style="color: #f8fafc;">{{ $traslado->centroDestino->nombre ?? 'N/A' }}</strong></td>
             <td>{{ $traslado->motivo }}</td>
-            <td>{{ $traslado->autorizadoPor->nombre ?? 'N/A' }}</td>
+            <td>{{ $traslado->autorizador->nombre ?? 'N/A' }}</td>
         </tr>
     @empty
         <tr>

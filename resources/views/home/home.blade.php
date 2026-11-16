@@ -23,19 +23,21 @@
 
     <div class="mb-5">
         <div class="row g-4">
-            <div class="col-12 col-md-6">
-                <a href="{{ route('equipos') }}" class="text-decoration-none dc-hover-lift-link">
-                    <div class="home-quick-link-card border-cyan-link">
-                        <div class="home-icon-circle icon-cyan">
-                            <i class="bi bi-pc-display"></i>
+            @if(auth()->check() && (auth()->user()->tieneRol('Administrador') || auth()->user()->tieneRol('Supervisor')))
+                <div class="col-12 col-md-6">
+                    <a href="{{ route('equipos') }}" class="text-decoration-none dc-hover-lift-link">
+                        <div class="home-quick-link-card border-cyan-link">
+                            <div class="home-icon-circle icon-cyan">
+                                <i class="bi bi-pc-display"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-light outfit-semibold mb-1">Inventario de Equipos</h5>
+                                <small class="text-muted outfit-regular">Gestionar hardware y fichas técnicas</small>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="text-light outfit-semibold mb-1">Inventario de Equipos</h5>
-                            <small class="text-muted outfit-regular">Gestionar hardware y fichas técnicas</small>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @endif
 
             <div class="col-12 col-md-6">
                 <a href="{{ route('dashboard') }}" class="text-decoration-none dc-hover-lift-link">
@@ -52,32 +54,34 @@
             </div>
 
             <div class="col-12 col-md-6">
-                <a href="{{ route('usuarios') }}" class="text-decoration-none dc-hover-lift-link">
+                <a href="{{ route('mantenimientos') }}" class="text-decoration-none dc-hover-lift-link">
                     <div class="home-quick-link-card border-green-link">
                         <div class="home-icon-circle icon-green">
-                            <i class="bi bi-people-fill"></i>
+                            <i class="bi bi-wrench-adjustable"></i>
                         </div>
                         <div>
-                            <h5 class="text-light outfit-semibold mb-1">Directorio de Usuarios</h5>
-                            <small class="text-muted outfit-regular">Administración de cuentas y roles</small>
+                            <h5 class="text-light outfit-semibold mb-1">Mantenimientos</h5>
+                            <small class="text-muted outfit-regular">Bitácora preventiva y correctiva</small>
                         </div>
                     </div>
                 </a>
             </div>
 
-            <div class="col-12 col-md-6">
-                <a href="#" class="text-decoration-none dc-hover-lift-link">
-                    <div class="home-quick-link-card border-blue-link">
-                        <div class="home-icon-circle icon-blue">
-                            <i class="bi bi-diagram-3-fill"></i>
+            @if(auth()->check() && auth()->user()->tieneRol('Administrador'))
+                <div class="col-12 col-md-6">
+                    <a href="{{ route('sedes') }}" class="text-decoration-none dc-hover-lift-link">
+                        <div class="home-quick-link-card border-blue-link">
+                            <div class="home-icon-circle icon-blue">
+                                <i class="bi bi-diagram-3-fill"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-light outfit-semibold mb-1">Sedes y Sucursales</h5>
+                                <small class="text-muted outfit-regular">Estructura organizacional</small>
+                            </div>
                         </div>
-                        <div>
-                            <h5 class="text-light outfit-semibold mb-1">Sedes y Sucursales</h5>
-                            <small class="text-muted outfit-regular">Estructura organizacional</small>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -89,32 +93,44 @@
             <div class="dc-card">
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush dc-list-group">
-                        <li class="list-group-item d-flex align-items-start py-4 px-4 transition-all">
-                            <i class="bi bi-info-circle-fill text-cyan mt-1 me-3 fs-5 opacity-75"></i>
-                            <div>
-                                <h6 class="text-light mb-1 outfit-semibold">Sistema Actualizado</h6>
-                                <p class="text-muted small mb-2 outfit-regular">La interfaz UI/UX ha sido actualizada a la versión NOC 1.0. Se han aplicado parches de seguridad.</p>
-                                <span class="badge bg-dark border border-secondary text-cyan home-notice-time">Hace 2 horas</span>
-                            </div>
-                        </li>
+                        @if(($totalVencidos ?? 0) > 0)
+                            <li class="list-group-item d-flex align-items-start py-4 px-4 transition-all">
+                                <i class="bi bi-exclamation-triangle-fill text-warning mt-1 me-3 fs-5 opacity-75"></i>
+                                <div>
+                                    <h6 class="text-light mb-1 outfit-semibold">Revisión de Inventario Requerida</h6>
+                                    <p class="text-muted small mb-2 outfit-regular">
+                                        Actualmente hay <strong class="text-warning">{{ $totalVencidos }} equipo(s)</strong> en tus centros asignados con mantenimientos preventivos vencidos.
+                                    </p>
+                                    <span class="badge bg-dark border border-secondary text-warning home-notice-time">Alerta Activa</span>
+                                </div>
+                            </li>
+                        @else
+                            <li class="list-group-item d-flex align-items-start py-4 px-4 transition-all">
+                                <i class="bi bi-shield-check-fill text-success mt-1 me-3 fs-5 opacity-75"></i>
+                                <div>
+                                    <h6 class="text-light mb-1 outfit-semibold">Infraestructura al Día</h6>
+                                    <p class="text-muted small mb-2 outfit-regular">Todos los equipos bajo tu supervisión tienen sus mantenimientos dentro de frecuencia.</p>
+                                    <span class="badge bg-dark border border-secondary text-success home-notice-time">Estado Óptimo</span>
+                                </div>
+                            </li>
+                        @endif
 
-                        <li class="list-group-item d-flex align-items-start py-4 px-4 transition-all">
-                            <i class="bi bi-exclamation-triangle-fill text-warning mt-1 me-3 fs-5 opacity-75"></i>
-                            <div>
-                                <h6 class="text-light mb-1 outfit-semibold">Revisión de Inventario</h6>
-                                <p class="text-muted small mb-2 outfit-regular">Se sugiere auditar el centro de cómputo principal. Hay 3 equipos con mantenimientos pendientes.</p>
-                                <span class="badge bg-dark border border-secondary text-warning home-notice-time">Ayer</span>
-                            </div>
-                        </li>
-
-                        <li class="list-group-item d-flex align-items-start py-4 px-4 transition-all">
-                            <i class="bi bi-shield-check-fill text-success mt-1 me-3 fs-5 opacity-75"></i>
-                            <div>
-                                <h6 class="text-light mb-1 outfit-semibold">Backup Exitoso</h6>
-                                <p class="text-muted small mb-2 outfit-regular">El respaldo diario de la base de datos se completó sin errores.</p>
-                                <span class="badge bg-dark border border-secondary text-success home-notice-time">03:00 AM</span>
-                            </div>
-                        </li>
+                            @foreach($ultimasBitacoras ?? [] as $bit)
+                                <li class="list-group-item d-flex align-items-start py-4 px-4 transition-all">
+                                    <i class="bi bi-activity text-cyan mt-1 me-3 fs-5 opacity-75"></i>
+                                    <div>
+                                        <h6 class="text-light mb-1 outfit-semibold">
+                                            {{ $bit->modulo ?? 'Sistema' }} — <span class="text-cyan">{{ $bit->evento }}</span>
+                                        </h6>
+                                        <p class="text-muted small mb-2 outfit-regular">
+                                            {{ $bit->descripcion ?? ('Usuario: ' . ($bit->usuario_nombre ?? 'Sistema')) }}
+                                        </p>
+                                        <span class="badge bg-dark border border-secondary text-cyan home-notice-time">
+                                         {{ $bit->created_at ? $bit->created_at->diffForHumans() : 'Reciente' }}
+                                         </span>
+                                    </div>
+                                </li>
+                            @endforeach
                     </ul>
                 </div>
                 <div class="card-footer text-center py-3 home-notice-footer">

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FiltrablePorContexto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -14,7 +15,7 @@ class Equipo extends Model
 {
 
     // Primeras 3 -> Obligatorias
-    use SoftDeletes;
+    use SoftDeletes, FiltrablePorContexto;
 
     protected $table = 'equipos';
 

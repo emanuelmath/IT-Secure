@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\FiltrablePorContexto;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class Mantenimiento extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, FiltrablePorContexto;
 
     protected $table = 'mantenimientos';
 
