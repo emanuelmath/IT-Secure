@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SedeRequest;
 use App\Models\Bitacora;
 use App\Models\Empresa;
 use App\Models\Sede;
@@ -19,9 +20,9 @@ class SedeController extends Controller
         return view('infraestructura.sedes', data: $datos);
     }
 
-    public function store(Request $request)
+    public function store(SedeRequest $request)
     {
-        $datos = Sede::validar($request->all());
+        $datos = $request->validated();
         $sede = Sede::create($datos);
 
         Bitacora::registrar(
@@ -34,9 +35,9 @@ class SedeController extends Controller
         return redirect()->route('sedes')->with('success', 'Sede registrada correctamente.');
     }
 
-    public function update(Request $request, Sede $sede)
+    public function update(SedeRequest $request, Sede $sede)
     {
-        $datos = Sede::validar($request->all(), $sede->id);
+        $datos = $request->validated();
         $sede->update($datos);
 
         Bitacora::registrar(

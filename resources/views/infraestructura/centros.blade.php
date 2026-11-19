@@ -44,12 +44,27 @@
                                 <small class="text-muted dc-text-micro">{{ $centro->sede->empresa->nombre ?? 'N/A' }}</small>
                             </td>
                             <td>
-                                <span class="badge dc-badge-secondary rounded-pill px-3 outfit-medium">
+                                <span class="badge dc-badge-secondary rounded-pill px-3 outfit-medium mb-1 d-inline-block">
                                     {{ $centro->equipos_count ?? $centro->equipos->count() }} equipo(s)
                                 </span>
+                                @php
+                                    $conteoTipos = $centro->equipos ? $centro->equipos->groupBy('tipo')->map->count() : collect();
+                                @endphp
+                                @if($conteoTipos->isNotEmpty())
+                                    <div class="d-flex flex-wrap gap-1 mt-1">
+                                        @foreach($conteoTipos as $tipo => $cant)
+                                            <span class="badge bg-dark border border-secondary text-light outfit-regular dc-text-micro">
+                                                <span class="text-cyan outfit-medium">{{ ucfirst($tipo) }}:</span> {{ $cant }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ route('centros.reporte.pdf', $centro->id) }}" target="_blank" class="btn btn-sm btn-outline-info dc-btn-icon" title="Generar Informe PDF del Centro">
+                                        <i class="bi bi-file-earmark-pdf-fill fs-6"></i>
+                                    </a>
                                     <button type="button" class="btn btn-sm btn-outline-warning dc-btn-icon btn-editar-centro"
                                             data-bs-toggle="modal" data-bs-target="#modalEditarCentro"
                                             data-id="{{ $centro->id }}"

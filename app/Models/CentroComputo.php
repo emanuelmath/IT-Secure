@@ -37,7 +37,14 @@ class CentroComputo extends Model
 
     public static function validar(array $datos, $id = null): array
     {
-        return Validator::make($datos, static::validaciones($id))->validate();
+        $mensajes = [
+            'sede_id.required' => 'Debe seleccionar una sede.',
+            'sede_id.exists' => 'La sede seleccionada no es válida.',
+            'codigo.required' => 'El código del centro de cómputo es obligatorio.',
+            'nombre.required' => 'El nombre del centro de cómputo es obligatorio.',
+        ];
+
+        return Validator::make($datos, static::validaciones($id), $mensajes)->validate();
     }
 
     public function sede(): BelongsTo

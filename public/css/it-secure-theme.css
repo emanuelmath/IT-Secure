@@ -331,6 +331,19 @@ body.sidebar-collapsed .sidebar-menu .nav-link:hover::after {
     min-width: 220px;
 }
 
+.dc-dropdown-scroll {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.dc-context-truncate {
+    max-width: 170px;
+}
+
+.dc-item-truncate {
+    max-width: 220px;
+}
+
 .dc-dropdown .dropdown-item {
     color: var(--dc-text-muted);
     border-radius: var(--dc-radius-sm);
@@ -791,4 +804,40 @@ body.sidebar-collapsed .sidebar-menu .nav-link:hover::after {
 select.dc-input {
     padding-right: 2.5rem;
     text-overflow: ellipsis;
+}
+
+.dc-asset-sticker {
+    background-color: var(--dc-bg-surface);
+    border: 1px dashed var(--dc-border);
+}
+
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+    #printAssetTag, #printAssetTag * {
+        visibility: visible !important;
+    }
+    #printAssetTag {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 340px;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 2px solid #000000 !important;
+        padding: 15px !important;
+        border-radius: 6px !important;
+    }
+    #printAssetTag * {
+        color: #000000 !important;
+    }
+    #printAssetTag .text-cyan {
+        color: #000000 !important;
+        font-weight: bold !important;
+    }
+    #printAssetTag .badge {
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+    }
 }

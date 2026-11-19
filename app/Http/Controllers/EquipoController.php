@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\EquiposExport;
+use App\Http\Requests\ActualizarEquipoRequest;
 use App\Http\Requests\InsertarEquipoRequest;
 use App\Models\Bitacora;
 use App\Models\CentroComputo;
@@ -17,7 +18,7 @@ class EquipoController extends Controller
     public function index()
     {
         $equipos = Equipo::with(['centroDeComputo.sede'])->get();
-        $centros = CentroComputo::with('sede.empresa')->get();
+        $centros = CentroComputo::with(['sede.empresa', 'equipos'])->get();
 
         return view('equipo.equipos', compact('equipos', 'centros'));
     }
@@ -66,9 +67,9 @@ class EquipoController extends Controller
         return redirect()->route('equipos')->with('success', "Equipo {$equipo->codigo_inventario} ingresado correctamente.");
     }
 
-    public function actualizarEquipo(Request $request, Equipo $equipo)
+    public function actualizarEquipo(ActualizarEquipoRequest $request, Equipo $equipo)
     {
-        $datos = Equipo::validar($request->all(), $equipo->id);
+        $datos = $request->validated();
         $equipo->update($datos);
 
         Bitacora::registrar(

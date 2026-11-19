@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CentroComputoRequest;
 use App\Models\Bitacora;
 use App\Models\CentroComputo;
 use App\Models\Sede;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class CentroComputoController extends Controller
 {
     public function index()
     {
-        $centros = CentroComputo::with('sede.empresa')
+        $centros = CentroComputo::with(['sede.empresa', 'equipos'])
             ->withCount('equipos')
             ->get();
 
@@ -20,9 +22,42 @@ class CentroComputoController extends Controller
         return view('infraestructura.centros', compact('centros', 'sedes'));
     }
 
-    public function store(Request $request)
+    public function reportePdf($id)
     {
-        $datos = CentroComputo::validar($request->all());
+        $centro = CentroComputo::with(['sede.empresa', 'equipos'])->findOrFail($id);
+
+        $equipos = $centro->equipos;
+        $totalEquipos = $equipos->count();
+        $operativos = $equipos->where('estado', 'operativo')->count();
+        $enMantenimiento = $equipos->where('estado', 'mantenimiento')->count();
+        $averiados = $equipos->where('estado', 'averiado')->count();
+        $bajas = $equipos->where('estado', 'baja_definitiva')->count();
+        $desgloseTipos = $equipos->groupBy('tipo')->map->count();
+
+        Bitacora::registrar(
+            'Exportar',
+            'Centros de Cómputo',
+            "Se generó el reporte ejecutivo de estado para el centro {$centro->nombre} ({$centro->codigo})",
+            $centro->id
+        );
+
+        $pdf = Pdf::loadView('reportes.centro-resumen-pdf', compact(
+            'centro',
+            'equipos',
+            'totalEquipos',
+            'operativos',
+            'enMantenimiento',
+            'averiados',
+            'bajas',
+            'desgloseTipos'
+        ))->setPaper('letter', 'portrait');
+
+        return $pdf->stream("Reporte_Estado_{$centro->codigo}.pdf");
+    }
+
+    public function store(CentroComputoRequest $request)
+    {
+        $datos = $request->validated();
         $centro = CentroComputo::create($datos);
 
         Bitacora::registrar(
@@ -35,9 +70,9 @@ class CentroComputoController extends Controller
         return redirect()->route('centros')->with('success', 'Centro de cómputo registrado correctamente.');
     }
 
-    public function update(Request $request, CentroComputo $centro)
+    public function update(CentroComputoRequest $request, CentroComputo $centro)
     {
-        $datos = CentroComputo::validar($request->all(), $centro->id);
+        $datos = $request->validated();
         $centro->update($datos);
 
         Bitacora::registrar(

@@ -20,11 +20,6 @@ class ActualizarUserRequest extends FormRequest
         return (new InsertarUsuarioRequest)->messages();
     }
 
-    public function attributes(): array
-    {
-        return (new InsertarUsuarioRequest)->attributes();
-    }
-
     public function authorize(): bool
     {
         return $this->user() && $this->user()->tieneRol('Administrador');

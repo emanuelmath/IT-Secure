@@ -35,7 +35,13 @@ class Sede extends Model
 
     public static function validar(array $datos, $id = null): array
     {
-        return Validator::make($datos, static::validaciones($id))->validate();
+        $mensajes = [
+            'empresa_id.required' => 'Debe seleccionar una empresa.',
+            'empresa_id.exists' => 'La empresa seleccionada no es válida.',
+            'nombre.required' => 'El nombre de la sede es obligatorio.',
+        ];
+
+        return Validator::make($datos, static::validaciones($id), $mensajes)->validate();
     }
 
     public function empresa(): BelongsTo

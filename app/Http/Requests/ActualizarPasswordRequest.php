@@ -16,4 +16,15 @@ class ActualizarPasswordRequest extends FormRequest
     {
         return $this->user() && $this->user()->roles()->exists();
     }
+
+    public function messages(): array
+    {
+        return [
+            'contrasenha.required' => 'La contraseña actual es obligatoria.',
+            'contrasenhaNueva.required' => 'La nueva contraseña es obligatoria.',
+            'contrasenhaNueva.min' => 'La nueva contraseña debe tener al menos 8 caracteres.',
+            'contrasenhaConfirmar.required' => 'Debe confirmar la nueva contraseña.',
+            'contrasenhaConfirmar.same' => 'La confirmación no coincide con la nueva contraseña.',
+        ];
+    }
 }

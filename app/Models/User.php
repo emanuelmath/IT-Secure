@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use function Laravel\Prompts\select;
-use function Symfony\Component\String\s;
 
 class User extends Authenticatable
 {
@@ -167,11 +165,11 @@ class User extends Authenticatable
         });
     }
 
-    public static function eliminar($id, $miID): bool
+    public static function eliminar($id, $miID = null): bool
     {
         if($id == 1) return false;
 
-        if($id === $miID) return false;
+        if($miID !== null && (int)$id === (int)$miID) return false;
 
         $usuario = self::find($id);
         if (!$usuario) return false;

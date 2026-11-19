@@ -22,8 +22,6 @@ class ActualizarEquipoRequest extends FormRequest
 
     public function messages(): array
     {
-        return [
-
-        ];
+        return (new InsertarEquipoRequest)->messages();
     }
 }

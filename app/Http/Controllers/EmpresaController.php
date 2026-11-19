@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EmpresaRequest;
 use App\Models\Bitacora;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
@@ -14,9 +15,9 @@ class EmpresaController extends Controller
         return view('infraestructura.empresas', compact('empresas'));
     }
 
-    public function store(Request $request)
+    public function store(EmpresaRequest $request)
     {
-        $datos = Empresa::validar($request->all());
+        $datos = $request->validated();
         $empresa = Empresa::create($datos);
 
         Bitacora::registrar('Crear', 'Empresas', "Se registró la empresa {$empresa->nombre} (NIT: {$empresa->nit})", $empresa->id);
@@ -24,9 +25,9 @@ class EmpresaController extends Controller
         return redirect()->route('empresas')->with('success', 'Empresa registrada correctamente.');
     }
 
-    public function update(Request $request, Empresa $empresa)
+    public function update(EmpresaRequest $request, Empresa $empresa)
     {
-        $datos = Empresa::validar($request->all(), $empresa->id);
+        $datos = $request->validated();
         $empresa->update($datos);
 
         Bitacora::registrar('Actualizar', 'Empresas', "Se actualizó la empresa {$empresa->nombre}", $empresa->id);

@@ -16,4 +16,12 @@ class RecuperarPasswordRequest extends FormRequest
     {
         return true;
     }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Debe ingresar un correo electrónico válido.',
+        ];
+    }
 }

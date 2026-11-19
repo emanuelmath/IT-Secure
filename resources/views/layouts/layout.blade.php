@@ -33,20 +33,53 @@
 
             <ul class="navbar-nav ms-auto align-items-center gap-3 gap-lg-4">
                 @if(auth()->check() && auth()->user()->tieneRol('Administrador'))
-                    <li class="nav-item d-none d-md-block">
-                        <form action="{{ route('contexto.empresa') }}" method="POST" id="formContextoEmpresa" class="d-flex align-items-center gap-2">
+                    @php
+                        $empresaActivaId = session('empresa_activa_id');
+                        $empresasContexto = \App\Models\Empresa::mostrarTodos();
+                        $empresaSeleccionada = $empresaActivaId ? $empresasContexto->firstWhere('id', $empresaActivaId) : null;
+                    @endphp
+                    <li class="nav-item dropdown d-none d-sm-block">
+                        <button class="btn btn-sm dc-btn-outline d-flex align-items-center gap-2 rounded-pill px-3 py-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Cambiar contexto de empresa activa">
+                            <i class="bi bi-building text-cyan fs-6"></i>
+                            <span class="outfit-medium text-light text-truncate dc-context-truncate">
+                                {{ $empresaSeleccionada ? $empresaSeleccionada->nombre : 'Todas las Empresas' }}
+                            </span>
+                            <i class="bi bi-chevron-down text-muted dc-text-micro ms-1"></i>
+                        </button>
+
+                        <form action="{{ route('contexto.empresa') }}" method="POST" id="formContextoEmpresa">
                             @csrf
-                            <label for="selectContextoEmpresa" class="text-muted text-uppercase dc-text-micro mb-0">
-                                <i class="bi bi-building text-cyan"></i>
-                            </label>
-                            <select name="empresa_id" id="selectContextoEmpresa" class="form-select form-select-sm dc-input" onchange="this.form.submit()">
-                                <option value="">Todas las Empresas (Global)</option>
-                                @foreach(\App\Models\Empresa::mostrarTodos() as $empContext)
-                                    <option value="{{ $empContext->id }}" {{ session('empresa_activa_id') == $empContext->id ? 'selected' : '' }}>
-                                        {{ $empContext->nombre }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg dc-dropdown dc-dropdown-scroll mt-2 border-0">
+                                <li class="dropdown-header text-uppercase dc-text-micro tracking-wide text-cyan outfit-semibold px-3 py-2">
+                                    <i class="bi bi-filter me-1"></i> Contexto Organizacional
+                                </li>
+                                <li>
+                                    <button type="submit" name="empresa_id" value="" class="dropdown-item d-flex align-items-center justify-content-between py-2 {{ !$empresaActivaId ? 'active text-cyan fw-bold' : '' }}">
+                                        <span class="d-flex align-items-center gap-2">
+                                            <i class="bi bi-globe2 text-muted"></i> Todas las Empresas (Global)
+                                        </span>
+                                        @if(!$empresaActivaId)
+                                            <i class="bi bi-check2 text-cyan fs-5"></i>
+                                        @endif
+                                    </button>
+                                </li>
+                                @if($empresasContexto->isNotEmpty())
+                                    <li><hr class="dropdown-divider border-secondary opacity-25 my-1"></li>
+                                    @foreach($empresasContexto as $empContext)
+                                        @php $esActiva = ($empresaActivaId == $empContext->id); @endphp
+                                        <li>
+                                            <button type="submit" name="empresa_id" value="{{ $empContext->id }}" class="dropdown-item d-flex align-items-center justify-content-between py-2 {{ $esActiva ? 'active text-cyan fw-bold' : '' }}">
+                                                <span class="d-flex align-items-center gap-2 text-truncate dc-item-truncate" title="{{ $empContext->nombre }}">
+                                                    <i class="bi bi-building text-muted"></i> {{ $empContext->nombre }}
+                                                </span>
+                                                @if($esActiva)
+                                                    <i class="bi bi-check2 text-cyan fs-5"></i>
+                                                @endif
+                                            </button>
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ul>
                         </form>
                     </li>
                 @endif

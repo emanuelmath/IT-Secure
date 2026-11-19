@@ -85,6 +85,7 @@ Route::middleware(['auth', 'prevent-back', "rol:{$roles[0]},{$roles[1]}"])->grou
     // Reportes y Exportaciones de Equipos
     Route::get('equipos/exportar/excel', [EquipoController::class, 'exportarExcel'])->name('equipos.export.excel');
     Route::get('equipos/{id}/ficha-pdf', [EquipoController::class, 'exportarFichaPdf'])->name('equipos.ficha.pdf');
+    Route::get('centros-computo/{id}/reporte-pdf', [CentroComputoController::class, 'reportePdf'])->name('centros.reporte.pdf');
 
     // CRUD de Equipos.
     Route::get('equipos', [EquipoController::class, 'index'])->name('equipos');
@@ -95,4 +96,5 @@ Route::middleware(['auth', 'prevent-back', "rol:{$roles[0]},{$roles[1]}"])->grou
     // Historial de Traslados.
     Route::get('traslados', [HistorialTrasladoController::class, 'index'])->name('traslados');
     Route::post('traslados', [HistorialTrasladoController::class, 'store'])->name('traslados.insertar');
+    Route::get('traslados/{id}/acta-pdf', [HistorialTrasladoController::class, 'actaPdf'])->name('traslados.acta.pdf');
 });

@@ -53,16 +53,19 @@
                                 <small class="text-cyan dc-text-micro">{{ $traslado->centroDestino->sede->nombre ?? '' }}</small>
                             </td>
                             <td class="text-muted small">{{ Str::limit($traslado->motivo, 45) }}</td>
-                            <td class="text-light outfit-medium">{{ $traslado->autorizadoPor->nombre ?? 'Sistema' }}</td>
+                            <td class="text-light outfit-medium">{{ $traslado->autorizador->nombre ?? 'Sistema' }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ route('traslados.acta.pdf', $traslado->id) }}" target="_blank" class="btn btn-sm btn-outline-info dc-btn-icon" title="Descargar Acta Oficial de Traslado">
+                                        <i class="bi bi-file-earmark-text-fill fs-6"></i>
+                                    </a>
                                     <button type="button" class="btn btn-sm btn-outline-info dc-btn-icon btn-ver-traslado"
                                             data-bs-toggle="modal" data-bs-target="#modalDetalleTraslado"
-                                            data-fecha="{{ $traslado->fecha_traslado }}"
+                                            data-fecha="{{ $traslado->fecha_traslado->format('Y-m-d') }}"
                                             data-equipo="{{ $traslado->equipo->codigo_inventario ?? 'N/A' }} — {{ $traslado->equipo->marca ?? '' }} {{ $traslado->equipo->modelo ?? '' }}"
                                             data-origen="{{ ($traslado->centroOrigen->nombre ?? 'N/A') . ' (' . ($traslado->centroOrigen->sede->nombre ?? 'N/A') . ')' }}"
                                             data-destino="{{ ($traslado->centroDestino->nombre ?? 'N/A') . ' (' . ($traslado->centroDestino->sede->nombre ?? 'N/A') . ')' }}"
-                                            data-autorizado="{{ $traslado->autorizadoPor->nombre ?? 'N/A' }}"
+                                            data-autorizado="{{ $traslado->autorizador->nombre ?? 'N/A' }}"
                                             data-motivo="{{ $traslado->motivo }}"
                                             title="Ver Detalle del Traslado">
                                         <i class="bi bi-eye fs-6"></i>

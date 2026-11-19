@@ -55,6 +55,24 @@ class HomeController extends Controller
 
         $equiposVencidos = Equipo::vencidos()->with('centroDeComputo')->take(5)->get();
         $totalVencidos = Equipo::vencidos()->count();
+        $equiposProximos = Equipo::proximosVencer(7)->with('centroDeComputo')->take(5)->get();
+        $totalProximos = Equipo::proximosVencer(7)->count();
+
+        // Toma de decisiones: Equipos con fallas correctivas recurrentes (Candidatos a baja definitiva)
+        $equiposFallasRecurrentes = Equipo::with(['centroDeComputo.sede'])
+            ->withCount(['mantenimientos as correctivos_count' => function ($q) {
+                $q->where('tipo', 'correctivo');
+            }])
+            ->where('estado', '!=', 'baja_definitiva')
+            ->whereHas('mantenimientos', function ($q) {
+                $q->where('tipo', 'correctivo');
+            })
+            ->orderByDesc('correctivos_count')
+            ->take(6)
+            ->get();
+
+        $decisionLabels = $equiposFallasRecurrentes->pluck('codigo_inventario');
+        $decisionData = $equiposFallasRecurrentes->pluck('correctivos_count');
 
         $traslados = HistorialTraslado::obtenerTrasladosUltimosSeisMeses();
 
@@ -66,6 +84,8 @@ class HomeController extends Controller
             'tipoLabels', 'tipoData',
             'mesesMant', 'mantPreventivos', 'mantCorrectivos',
             'equiposVencidos', 'totalVencidos',
+            'equiposProximos', 'totalProximos',
+            'equiposFallasRecurrentes', 'decisionLabels', 'decisionData',
             'trasladosLabels', 'trasladosData'
         ));
     }

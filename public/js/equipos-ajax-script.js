@@ -44,4 +44,41 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    const modalQr = document.getElementById('modalQrEquipo');
+    if (modalQr) {
+        modalQr.addEventListener('show.bs.modal', function (event) {
+            const btn = event.relatedTarget;
+            if (!btn) return;
+
+            const codigo = btn.getAttribute('data-codigo') || '';
+            const tipo = btn.getAttribute('data-tipo') || '';
+            const marca = btn.getAttribute('data-marca') || '';
+            const modelo = btn.getAttribute('data-modelo') || '';
+            const serie = btn.getAttribute('data-serie') || 'S/N';
+            const centro = btn.getAttribute('data-centro') || '';
+            const sede = btn.getAttribute('data-sede') || '';
+            const urlFicha = btn.getAttribute('data-url') || window.location.href;
+
+            document.getElementById('qr_codigo').textContent = codigo;
+            document.getElementById('qr_equipo').textContent = `${tipo} - ${marca} ${modelo}`;
+            document.getElementById('qr_serie').textContent = `S/N: ${serie}`;
+            document.getElementById('qr_ubicacion').textContent = `${centro} (${sede})`;
+
+            const container = document.getElementById('qrCanvasContainer');
+            if (container) {
+                container.innerHTML = '';
+                if (typeof QRCode !== 'undefined') {
+                    new QRCode(container, {
+                        text: urlFicha,
+                        width: 105,
+                        height: 105,
+                        colorDark: "#083885",
+                        colorLight: "#f6f6f8",
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                }
+            }
+        });
+    }
 });

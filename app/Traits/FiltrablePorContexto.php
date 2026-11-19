@@ -38,6 +38,7 @@ trait FiltrablePorContexto
             $centrosPermitidos = $user->centrosDeComputo()->pluck('centros_de_computo.id')->toArray();
 
             match ($tabla) {
+                'sedes' => $builder->whereHas('centrosDeComputo', fn ($q) => $q->whereIn('centros_de_computo.id', $centrosPermitidos)),
                 'centros_de_computo' => $builder->whereIn('id', $centrosPermitidos),
                 'equipos' => $builder->whereIn('centros_de_computo_id', $centrosPermitidos),
                 'mantenimientos' => $builder->whereHas('equipo', fn ($q) => $q->whereIn('centros_de_computo_id', $centrosPermitidos)),

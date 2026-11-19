@@ -31,7 +31,13 @@ class Empresa extends Model
 
     public static function validar(array $datos, $id = null): array
     {
-        return Validator::make($datos, static::validaciones($id))->validate();
+        $mensajes = [
+            'nombre.required' => 'El nombre de la empresa es obligatorio.',
+            'nit.required' => 'El NIT es obligatorio.',
+            'nit.unique' => 'Este número de NIT ya se encuentra registrado.',
+        ];
+
+        return Validator::make($datos, static::validaciones($id), $mensajes)->validate();
     }
 
     public function sedes(): HasMany
@@ -47,12 +53,12 @@ class Empresa extends Model
         return self::all();
     }
 
-    public static function buscarPorId($id): Empresa
+    public static function buscarPorId($id): ?Empresa
     {
         return self::find($id);
     }
 
-    public static function buscarPorNombre($nombre): Empresa
+    public static function buscarPorNombre($nombre): Collection
     {
         return self::where('nombre', 'like', "%{$nombre}%")->get();
     }

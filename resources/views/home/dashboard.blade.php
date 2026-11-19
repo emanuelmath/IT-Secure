@@ -120,6 +120,88 @@
                 </div>
             </div>
         </div>
+
+        <div class="row g-4 mt-1">
+            <div class="col-12 col-lg-5">
+                <div class="dc-card h-100 dc-card-hover border-danger-left">
+                    <div class="dc-card-title outfit-medium text-warning d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-shield-slash me-2 opacity-75"></i> Toma de Decisiones: Descarte vs Reparación
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="text-muted small mb-3">
+                            Monitoreo de equipos con fallas correctivas recurrentes. Aquellos con 3 o más averías alcanzan el umbral crítico donde se recomienda baja definitiva en lugar de reparaciones continuas.
+                        </p>
+                        <div class="chart-container dc-chart-wrapper">
+                            <canvas id="decisionBajaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-7">
+                <div class="dc-card h-100 dc-card-hover">
+                    <div class="dc-card-title outfit-medium text-cyan">
+                        <i class="bi bi-cpu me-2 opacity-75"></i> Diagnóstico de Reincidencia Crítica de Hardware
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive p-3">
+                            <table class="dc-table dc-table-dark w-100 m-0">
+                                <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Centro / Sede</th>
+                                    <th class="text-center">Fallas (Corr.)</th>
+                                    <th>Dictamen NOC</th>
+                                    <th class="text-center">Acción</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($equiposFallasRecurrentes ?? [] as $eqFalla)
+                                    <tr class="transition-all dc-table-row">
+                                        <td class="text-cyan font-monospace outfit-semibold dc-font-code">{{ $eqFalla->codigo_inventario }}</td>
+                                        <td>
+                                            <span class="text-light outfit-medium d-block">{{ $eqFalla->centroDeComputo->nombre ?? 'N/A' }}</span>
+                                            <small class="text-muted dc-text-micro">{{ $eqFalla->centroDeComputo->sede->nombre ?? '' }}</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge {{ $eqFalla->correctivos_count >= 3 ? 'dc-badge-danger' : 'dc-badge-warning' }} rounded-pill px-3">
+                                                {{ $eqFalla->correctivos_count }} correctivo(s)
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @if($eqFalla->correctivos_count >= 3)
+                                                <span class="text-danger outfit-semibold small d-flex align-items-center">
+                                                    <i class="bi bi-exclamation-octagon-fill me-1"></i> Sugerir Baja Definitiva
+                                                </span>
+                                            @else
+                                                <span class="text-warning outfit-regular small d-flex align-items-center">
+                                                    <i class="bi bi-exclamation-triangle-fill me-1"></i> Vigilancia Operativa
+                                                </span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ route('equipos') }}" class="btn btn-sm btn-outline-warning dc-btn-xs rounded-pill px-3 outfit-semibold">
+                                                Revisar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-4 outfit-medium">
+                                            <i class="bi bi-check-circle-fill text-success fs-3 d-block mb-2 opacity-75"></i>
+                                            Infraestructura estable. Ningún equipo ha presentado reincidencia crítica de fallas.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -256,6 +338,43 @@
                         scales: {
                             x: { grid: { display: false }, ticks: { color: colorTextMuted, font: { weight: '300' } } },
                             y: { grid: { color: colorGridLine }, ticks: { color: colorTextMuted, stepSize: 1, font: { weight: '300' } } }
+                        }
+                    }
+                });
+            }
+
+            if(document.getElementById('decisionBajaChart')) {
+                new Chart(document.getElementById('decisionBajaChart').getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: @json($decisionLabels ?? []),
+                        datasets: [{
+                            label: 'Fallas Correctivas',
+                            data: @json($decisionData ?? []),
+                            backgroundColor: 'rgba(239, 68, 68, 0.25)',
+                            borderColor: '#ef4444',
+                            borderWidth: 1.5,
+                            borderRadius: 6,
+                            hoverBackgroundColor: 'rgba(239, 68, 68, 0.45)'
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: tooltipConfig
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: colorGridLine },
+                                ticks: { color: colorTextMuted, stepSize: 1, font: { weight: '300' } }
+                            },
+                            y: {
+                                grid: { display: false },
+                                ticks: { color: colorTextMain, font: { weight: '500' } }
+                            }
                         }
                     }
                 });

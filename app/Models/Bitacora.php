@@ -52,14 +52,31 @@ class Bitacora extends Model
             return self::create($moduloOArray);
         }
 
-        $eventoNormalizado = match (mb_strtoupper(trim((string) $evento))) {
+        $accionesConocidas = [
+            'LOGIN', 'LOGIN_OK', 'LOGIN_FALLIDO', 'ERROR_LOGIN', 'LOGOUT', 'SALIDA',
+            'CREAR', 'CREADO', 'INSERTAR', 'MANTENIMIENTO', 'TRASLADO',
+            'ACTUALIZAR', 'ACTUALIZADO', 'EDITAR', 'ACTIVAR', 'PASSWORD',
+            'ELIMINAR', 'ELIMINADO', 'INHABILITAR', 'BAJA', 'EXPORTAR'
+        ];
+
+        $modulo = (string) $moduloOArray;
+        $ev = (string) $evento;
+
+        if (in_array(mb_strtoupper(trim($modulo)), $accionesConocidas) && !in_array(mb_strtoupper(trim($ev)), $accionesConocidas)) {
+            $temp = $modulo;
+            $modulo = $ev;
+            $ev = $temp;
+        }
+
+        $eventoNormalizado = match (mb_strtoupper(trim($ev))) {
             'LOGIN', 'LOGIN_OK'                                     => self::eventos[0], // LOGIN_OK
             'LOGIN_FALLIDO', 'ERROR_LOGIN'                          => self::eventos[1], // LOGIN_FALLIDO
             'LOGOUT', 'SALIDA'                                      => self::eventos[2], // LOGOUT
             'CREAR', 'CREADO', 'INSERTAR', 'MANTENIMIENTO', 'TRASLADO' => self::eventos[3], // CREADO
             'ACTUALIZAR', 'ACTUALIZADO', 'EDITAR', 'ACTIVAR', 'PASSWORD' => self::eventos[4], // ACTUALIZADO
             'ELIMINAR', 'ELIMINADO', 'INHABILITAR', 'BAJA'          => self::eventos[5], // ELIMINADO
-            default                                                 => mb_strtoupper((string) $evento),
+            'EXPORTAR'                                              => 'EXPORTADO',
+            default                                                 => mb_strtoupper($ev),
         };
 
         $user = Auth::user();
@@ -68,7 +85,7 @@ class Bitacora extends Model
             'usuario_id'     => $usuarioId ?? $user?->id,
             'usuario_nombre' => $usuarioNombre ?? ($user?->email ?? $user?->nombre ?? 'Sistema'),
             'evento'         => $eventoNormalizado,
-            'modulo'         => $moduloOArray,
+            'modulo'         => $modulo,
             'registro_id'    => $registroId,
             'descripcion'    => $descripcion,
             'ip_address'     => request()?->ip(),

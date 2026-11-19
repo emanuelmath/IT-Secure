@@ -66,7 +66,7 @@ class UserController extends Controller
             return redirect()->route('usuarios')->with('error', "No te puedes eliminar a ti mismo.");
         }
 
-        if (User::eliminar($id)) {
+        if (User::eliminar($id, auth()->id())) {
             Bitacora::registrar('Eliminar', 'Usuarios', "Se inhabilitó al usuario ID {$id}", $id);
             return redirect()->route('usuarios')->with('success', "Usuario eliminado correctamente.");
         }

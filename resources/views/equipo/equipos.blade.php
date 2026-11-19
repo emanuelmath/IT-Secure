@@ -23,6 +23,39 @@
         </div>
     </div>
 
+    @if($centros->isNotEmpty())
+        <div class="row g-3 mb-4">
+            @foreach($centros as $c)
+                @php
+                    $conteoPorTipo = $c->equipos ? $c->equipos->groupBy('tipo')->map->count() : collect();
+                @endphp
+                <div class="col-12 col-md-6 col-xl-4">
+                    <div class="dc-card p-3 h-100 dc-card-hover">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <span class="fw-bold text-cyan font-monospace dc-font-code">{{ $c->codigo }}</span>
+                                <h6 class="text-white outfit-medium mb-0">{{ $c->nombre }}</h6>
+                                <small class="text-muted dc-text-micro">{{ $c->sede->nombre ?? '' }} ({{ $c->sede->empresa->nombre ?? '' }})</small>
+                            </div>
+                            <a href="{{ route('centros.reporte.pdf', $c->id) }}" target="_blank" class="btn btn-sm btn-outline-info dc-btn-icon" title="Generar Informe PDF de Estado">
+                                <i class="bi bi-file-earmark-pdf-fill fs-6"></i>
+                            </a>
+                        </div>
+                        <div class="d-flex flex-wrap gap-1 mt-2">
+                            @forelse($conteoPorTipo as $tipo => $cant)
+                                <span class="badge bg-dark border border-secondary text-light outfit-regular dc-text-micro">
+                                    <span class="text-cyan outfit-medium">{{ ucfirst($tipo) }}:</span> {{ $cant }}
+                                </span>
+                            @empty
+                                <small class="text-muted dc-text-micro fst-italic">Sin hardware registrado</small>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
+
     <div class="dc-card">
         <div class="card-body p-0">
             <div class="table-responsive p-4">
@@ -69,6 +102,20 @@
                                     <a href="{{ route('equipos.ficha.pdf', $eq->id) }}" target="_blank" class="btn btn-sm btn-outline-info dc-btn-icon" title="Descargar Ficha Técnica">
                                         <i class="bi bi-file-earmark-pdf-fill fs-6"></i>
                                     </a>
+                                    <button type="button" class="btn btn-sm btn-outline-light dc-btn-icon btn-ver-qr"
+                                            data-bs-toggle="modal" data-bs-target="#modalQrEquipo"
+                                            data-id="{{ $eq->id }}"
+                                            data-codigo="{{ $eq->codigo_inventario }}"
+                                            data-tipo="{{ ucfirst($eq->tipo) }}"
+                                            data-marca="{{ $eq->marca ?? '' }}"
+                                            data-modelo="{{ $eq->modelo ?? '' }}"
+                                            data-serie="{{ $eq->numero_serie ?? 'S/N' }}"
+                                            data-centro="{{ $eq->centroDeComputo->nombre ?? 'Sin Asignar' }}"
+                                            data-sede="{{ $eq->centroDeComputo->sede->nombre ?? '' }}"
+                                            data-url="{{ route('equipos.ficha.pdf', $eq->id) }}"
+                                            title="Generar Etiqueta QR del Activo">
+                                        <i class="bi bi-qr-code fs-6"></i>
+                                    </button>
                                     <button type="button" class="btn btn-sm btn-outline-warning dc-btn-icon btn-editar"
                                             data-bs-toggle="modal" data-bs-target="#modalEditarEquipo"
                                             data-id="{{ $eq->id }}"
@@ -272,11 +319,57 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Etiqueta QR del Activo -->
+    <div class="modal fade dc-modal" id="modalQrEquipo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-bottom border-secondary opacity-75">
+                    <h5 class="modal-title outfit-semibold text-white">
+                        <i class="bi bi-qr-code-scan text-cyan me-2"></i> Etiqueta de Identificación de Activo
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <div id="printAssetTag" class="dc-asset-sticker mx-auto p-3 rounded text-start">
+                        <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-2 mb-3">
+                            <span class="outfit-bold text-white fs-6">IT-<span class="text-cyan">SECURE</span></span>
+                            <span class="badge dc-badge-secondary dc-text-micro font-monospace">ACTIVO TI</span>
+                        </div>
+                        <div class="row align-items-center g-3">
+                            <div class="col-7">
+                                <span class="d-block dc-text-micro text-muted text-uppercase tracking-wide">Código Inventario</span>
+                                <h5 id="qr_codigo" class="text-cyan font-monospace outfit-bold mb-2"></h5>
+
+                                <span class="d-block dc-text-micro text-muted text-uppercase tracking-wide">Hardware</span>
+                                <span id="qr_equipo" class="text-white outfit-medium d-block small mb-1"></span>
+
+                                <span class="d-block dc-text-micro text-muted text-uppercase tracking-wide">Serie / Ubicación</span>
+                                <small class="text-muted font-monospace d-block" id="qr_serie"></small>
+                                <small class="text-light outfit-regular d-block" id="qr_ubicacion"></small>
+                            </div>
+                            <div class="col-5 text-center">
+                                <div id="qrCanvasContainer" class="bg-white p-2 rounded d-inline-block shadow-sm"></div>
+                                <small class="text-muted dc-text-micro d-block mt-1">Escanear para Ficha</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary opacity-75 d-flex justify-content-between">
+                    <button type="button" class="btn dc-btn-outline px-4" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn dc-btn-primary px-4" onclick="window.print()">
+                        <i class="bi bi-printer me-1"></i> Imprimir Etiqueta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="{{ asset('js/dataTable.js') }}"></script>
     <script src="{{ asset('js/equipos-ajax-script.js') }}"></script>
-@endpus
+@endpush

@@ -60,7 +60,8 @@ class Equipo extends Model
 
     public static function validar(array $datos, $id = null): array
     {
-        return Validator::make($datos, static::validaciones($id))->validate();
+        $mensajes = (new \App\Http\Requests\InsertarEquipoRequest)->messages();
+        return Validator::make($datos, static::validaciones($id), $mensajes)->validate();
     }
     public function centroDeComputo(): BelongsTo
     {
@@ -100,7 +101,31 @@ class Equipo extends Model
 
     public function scopeVencidos($query)
     {
-        return $query->whereRaw('DATE_ADD(fecha_ultimo_mantenimiento, INTERVAL dias_frecuencia_mantenimiento DAY) < CURDATE()');
+        return $query->where('estado', '!=', 'baja_definitiva')
+            ->where(function ($q) {
+                $q->whereNull('fecha_ultimo_mantenimiento')
+                    ->orWhereRaw('DATE_ADD(fecha_ultimo_mantenimiento, INTERVAL dias_frecuencia_mantenimiento DAY) <= CURDATE()');
+            });
+    }
+
+    public function scopeProximosVencer($query, int $dias = 7)
+    {
+        return $query->where('estado', '!=', 'baja_definitiva')
+            ->whereNotNull('fecha_ultimo_mantenimiento')
+            ->whereRaw('DATE_ADD(fecha_ultimo_mantenimiento, INTERVAL dias_frecuencia_mantenimiento DAY) > CURDATE()')
+            ->whereRaw('DATE_ADD(fecha_ultimo_mantenimiento, INTERVAL dias_frecuencia_mantenimiento DAY) <= DATE_ADD(CURDATE(), INTERVAL ? DAY)', [$dias]);
+    }
+
+    public static function obtenerCandidatosBaja(int $minFallas = 3): Collection
+    {
+        return self::with(['centroDeComputo.sede'])
+            ->withCount(['mantenimientos as total_correctivos' => function ($q) {
+                $q->where('tipo', 'correctivo');
+            }])
+            ->where('estado', '!=', 'baja_definitiva')
+            ->having('total_correctivos', '>=', $minFallas)
+            ->orderByDesc('total_correctivos')
+            ->get();
     }
 
     public static function insertar($datos): Equipo
