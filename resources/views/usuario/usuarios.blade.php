@@ -89,48 +89,48 @@
     </div>
 
     <!-- Modal Crear Usuario -->
-    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal fade dc-modal" id="modalUsuario" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content dc-modal shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0">
-                    <h5 class="modal-title text-light outfit-bold" id="modalUsuarioLabel">
-                        <i class="bi bi-person-plus-fill text-cyan me-2 opacity-75"></i> Registrar Usuario
+            <div class="modal-content">
+                <div class="modal-header border-bottom border-secondary opacity-75">
+                    <h5 class="modal-title outfit-semibold text-white" id="modalUsuarioLabel">
+                        <i class="bi bi-person-plus-fill text-cyan me-2"></i> Registrar Nuevo Usuario
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <form id="formUsuario" action="{{ route('usuarios.insertar') }}" method="POST">
                     @csrf
-                    <div class="modal-body pt-4">
+                    <div class="modal-body p-4">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="nombre" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Nombre Completo</label>
+                                <label for="nombre" class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Nombre Completo</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-person"></i></span>
-                                    <input type="text" class="form-control dc-input outfit-regular" id="nombre" name="nombre" required maxlength="255" autocomplete="name" placeholder="Ej. Juan Pérez">
+                                    <input type="text" class="form-control dc-input" id="nombre" name="nombre" required maxlength="255" autocomplete="name" placeholder="Ej. Juan Pérez">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="email" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Correo Electrónico</label>
+                                <label for="email" class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Correo Electrónico</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-envelope"></i></span>
-                                    <input type="email" class="form-control dc-input outfit-regular" id="email" name="email" required maxlength="255" autocomplete="email" placeholder="usuario@itsecure.sv">
+                                    <input type="email" class="form-control dc-input" id="email" name="email" required maxlength="255" autocomplete="email" placeholder="usuario@itsecure.sv">
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <label for="contrasenha" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Contraseña de Acceso</label>
+                                <label for="contrasenha" class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Contraseña de Acceso</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-key"></i></span>
-                                    <input type="password" class="form-control dc-input outfit-regular" id="contrasenha" name="contrasenha" required minlength="8" placeholder="••••••••">
+                                    <input type="password" class="form-control dc-input" id="contrasenha" name="contrasenha" required minlength="8" placeholder="••••••••">
                                 </div>
                                 <div class="form-text text-muted dc-text-micro">Debe contener al menos 8 caracteres.</div>
                             </div>
 
                             @if (isset($roles) && count($roles) > 0)
                                 <div class="col-md-5">
-                                    <label class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Asignar Roles</label>
+                                    <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Asignar Roles</label>
                                     <div class="dc-checkbox-list">
                                         @foreach ($roles as $rol)
                                             <label class="dc-checkbox-item" for="crear_rol_{{ $rol->id }}">
@@ -149,7 +149,7 @@
 
                             @if (isset($centros) && count($centros) > 0)
                                 <div class="col-md-7">
-                                    <label class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Centros de Cómputo a Cargo</label>
+                                    <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Centros de Cómputo a Cargo</label>
                                     <div class="dc-checkbox-list">
                                         @foreach ($centros as $centro)
                                             <label class="dc-checkbox-item" for="crear_centro_{{ $centro->id }}">
@@ -168,11 +168,9 @@
                             @endif
                         </div>
                     </div>
-                    <div class="modal-footer border-top-0 pt-2">
-                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn dc-btn-primary">
-                            <i class="bi bi-save2 me-1"></i> Guardar Usuario
-                        </button>
+                    <div class="modal-footer border-top border-secondary opacity-75">
+                        <button type="button" class="btn dc-btn-outline px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn dc-btn-primary px-4">Guardar Usuario</button>
                     </div>
                 </form>
             </div>
@@ -180,49 +178,49 @@
     </div>
 
     <!-- Modal Editar Usuario -->
-    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal fade dc-modal" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content dc-modal shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0">
-                    <h5 class="modal-title text-light outfit-bold" id="modalEditarUsuarioLabel">
-                        <i class="bi bi-pencil-square text-cyan me-2 opacity-75"></i> Editar Usuario
+            <div class="modal-content">
+                <div class="modal-header border-bottom border-secondary opacity-75">
+                    <h5 class="modal-title outfit-semibold text-white" id="modalEditarUsuarioLabel">
+                        <i class="bi bi-pencil-square text-cyan me-2"></i> Editar Usuario
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <form id="formEditar" method="POST" data-action-template="{{ route('usuarios.actualizar', ['usuario' => '__ID__']) }}">
                     @csrf
                     @method('PUT')
-                    <div class="modal-body pt-4">
+                    <div class="modal-body p-4">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="editar_nombre" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Nombre Completo</label>
+                                <label for="editar_nombre" class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Nombre Completo</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-person"></i></span>
-                                    <input type="text" class="form-control dc-input outfit-regular" id="editar_nombre" name="nombre" required maxlength="255">
+                                    <input type="text" class="form-control dc-input" id="editar_nombre" name="nombre" required maxlength="255">
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="editar_email" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Correo Electrónico</label>
+                                <label for="editar_email" class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Correo Electrónico</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-envelope"></i></span>
-                                    <input type="email" class="form-control dc-input outfit-regular" id="editar_email" name="email" required maxlength="255">
+                                    <input type="email" class="form-control dc-input" id="editar_email" name="email" required maxlength="255">
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <label for="editar_contrasenha" class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Nueva Contraseña (Opcional)</label>
+                                <label for="editar_contrasenha" class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Nueva Contraseña (Opcional)</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-key"></i></span>
-                                    <input type="password" class="form-control dc-input outfit-regular" id="editar_contrasenha" name="contrasenha" minlength="8" placeholder="••••••••">
+                                    <input type="password" class="form-control dc-input" id="editar_contrasenha" name="contrasenha" minlength="8" placeholder="••••••••">
                                 </div>
                                 <div class="form-text text-muted dc-text-micro">Dejar en blanco si no desea cambiarla.</div>
                             </div>
 
                             @if (isset($roles) && count($roles) > 0)
                                 <div class="col-md-5">
-                                    <label class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Asignar Roles</label>
+                                    <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Asignar Roles</label>
                                     <div class="dc-checkbox-list">
                                         @foreach ($roles as $rol)
                                             <label class="dc-checkbox-item" for="editar_rol_{{ $rol->id }}">
@@ -241,7 +239,7 @@
 
                             @if (isset($centros) && count($centros) > 0)
                                 <div class="col-md-7">
-                                    <label class="form-label text-muted small outfit-bold text-uppercase tracking-wide">Centros de Cómputo a Cargo</label>
+                                    <label class="form-label text-muted text-uppercase tracking-wide outfit-medium dc-text-micro">Centros de Cómputo a Cargo</label>
                                     <div class="dc-checkbox-list">
                                         @foreach ($centros as $centro)
                                             <label class="dc-checkbox-item" for="editar_centro_{{ $centro->id }}">
@@ -259,11 +257,9 @@
                             @endif
                         </div>
                     </div>
-                    <div class="modal-footer border-top-0 pt-2">
-                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn dc-btn-primary">
-                            <i class="bi bi-arrow-repeat me-1"></i> Actualizar Usuario
-                        </button>
+                    <div class="modal-footer border-top border-secondary opacity-75">
+                        <button type="button" class="btn dc-btn-outline px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn dc-btn-primary px-4">Actualizar Usuario</button>
                     </div>
                 </form>
             </div>
@@ -271,53 +267,51 @@
     </div>
 
     <!-- Modal Eliminar Usuario -->
-    <div class="modal fade" id="modalEliminarUsuario" tabindex="-1" aria-labelledby="modalEliminarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal fade dc-modal dc-modal-danger" id="modalEliminarUsuario" tabindex="-1" aria-labelledby="modalEliminarUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content dc-modal dc-modal-danger shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0">
-                    <h5 class="modal-title text-danger outfit-bold" id="modalEliminarUsuarioLabel">
-                        <i class="bi bi-exclamation-triangle-fill me-2 opacity-75"></i> Confirmar Inhabilitación
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-4 mt-2">
+                        <i class="bi bi-exclamation-triangle text-danger dc-text-huge"></i>
+                    </div>
+                    <h5 class="text-white outfit-semibold mb-3" id="modalEliminarUsuarioLabel">¿Inhabilitar Usuario?</h5>
+                    <p class="text-muted mb-4">
+                        ¿Estás seguro que deseas inhabilitar al usuario <strong id="nombreEliminar" class="text-white"></strong>? Perderá el acceso al sistema mediante borrado lógico.
+                    </p>
+                    <form id="formEliminar" method="POST" data-action-template="{{ route('usuarios.eliminar', ['usuario' => '__ID__']) }}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="button" class="btn dc-btn-outline px-4" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn dc-btn-danger px-4">Sí, Inhabilitar</button>
+                        </div>
+                    </form>
                 </div>
-                <form id="formEliminar" method="POST" data-action-template="{{ route('usuarios.eliminar', ['usuario' => '__ID__']) }}">
-                    @csrf
-                    @method('DELETE')
-                    <div class="modal-body text-light pt-4 outfit-regular">
-                        ¿Estás seguro de que deseas inhabilitar al usuario <strong id="nombreEliminar" class="text-danger outfit-semibold"></strong>?
-                        <p class="text-muted small mt-2 mb-0">El usuario no será eliminado físicamente, pero perderá el acceso al sistema (Soft Delete lógico).</p>
-                    </div>
-                    <div class="modal-footer border-top-0 pt-0 mt-3">
-                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger dc-btn-danger">Inhabilitar Acceso</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
 
     <!-- Modal Activar Usuario -->
-    <div class="modal fade" id="modalActivarUsuario" tabindex="-1" aria-labelledby="modalActivarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal fade dc-modal dc-modal-success" id="modalActivarUsuario" tabindex="-1" aria-labelledby="modalActivarUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content dc-modal dc-modal-success shadow-lg">
-                <div class="modal-header border-bottom-0 pb-0">
-                    <h5 class="modal-title text-success outfit-bold" id="modalActivarUsuarioLabel">
-                        <i class="bi bi-check-circle-fill me-2 opacity-75"></i> Confirmar Activación
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-4 mt-2">
+                        <i class="bi bi-check-circle text-success dc-text-huge"></i>
+                    </div>
+                    <h5 class="text-white outfit-semibold mb-3" id="modalActivarUsuarioLabel">¿Reactivar Usuario?</h5>
+                    <p class="text-muted mb-4">
+                        ¿Estás seguro que deseas reactivar el acceso al sistema para <strong id="nombreActivar" class="text-white"></strong>?
+                    </p>
+                    <form id="formActivar" method="POST" data-action-template="{{ route('usuarios.activar', ['usuario' => '__ID__']) }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="button" class="btn dc-btn-outline px-4" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn dc-btn-success px-4">Sí, Activar</button>
+                        </div>
+                    </form>
                 </div>
-                <form id="formActivar" method="POST" data-action-template="{{ route('usuarios.activar', ['usuario' => '__ID__']) }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body text-light pt-4 outfit-regular">
-                        ¿Estás seguro de que deseas reactivar al usuario <strong id="nombreActivar" class="text-success outfit-semibold"></strong>?
-                        <p class="text-muted small mt-2 mb-0">El usuario recuperará inmediatamente el acceso al sistema con sus roles asignados.</p>
-                    </div>
-                    <div class="modal-footer border-top-0 pt-0 mt-3">
-                        <button type="button" class="btn btn-outline-secondary dc-btn-outline" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success dc-btn-success">Activar Acceso</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
