@@ -4,12 +4,16 @@
 @section('subtitulo', 'Centro de Operaciones de Red')
 @section('breadcrumb', 'Dashboard')
 
+@push('estilos')
+    <link rel="stylesheet" href="{{ asset('css/dashboard-theme.css') }}">
+@endpush
+
 @section('contenido')
     <div class="container-fluid py-2 px-0">
 
         <div class="row mb-5">
             <div class="col-12">
-                <div class="dc-card border-danger-left">
+                <div class="dc-card noc-card-danger">
                     <div class="row align-items-stretch m-0">
 
                         <div class="col-md-3 text-center border-end dc-border-end py-4 px-3 d-flex flex-column justify-content-center bg-danger-subtle-glow">
@@ -64,7 +68,7 @@
 
         <div class="row mb-5 g-4">
             <div class="col-12 col-lg-5">
-                <div class="dc-card h-100 dc-card-hover">
+                <div class="dc-card h-100 noc-card-cyan">
                     <div class="dc-card-title d-flex justify-content-between align-items-center outfit-medium">
                         <div>
                             <span class="status-indicator-live d-inline-block rounded-circle me-2"></span>
@@ -80,7 +84,7 @@
             </div>
 
             <div class="col-12 col-lg-7">
-                <div class="dc-card h-100 dc-card-hover">
+                <div class="dc-card h-100 noc-card-cyan">
                     <div class="dc-card-title text-cyan outfit-medium">
                         <i class="bi bi-pc-display-horizontal me-2 opacity-75"></i> Composición de Hardware
                     </div>
@@ -95,7 +99,7 @@
 
         <div class="row g-4">
             <div class="col-12 col-lg-7">
-                <div class="dc-card h-100 dc-card-hover">
+                <div class="dc-card h-100 noc-card-cyan">
                     <div class="dc-card-title outfit-medium">
                         <i class="bi bi-graph-up-arrow text-cyan me-2 opacity-75"></i> Tendencia: Prev. vs Correctivos
                     </div>
@@ -108,7 +112,7 @@
             </div>
 
             <div class="col-12 col-lg-5">
-                <div class="dc-card h-100 dc-card-hover">
+                <div class="dc-card h-100 noc-card-cyan">
                     <div class="dc-card-title outfit-medium">
                         <i class="bi bi-arrow-left-right text-cyan me-2 opacity-75"></i> Frecuencia de Traslados
                     </div>
@@ -123,8 +127,8 @@
 
         <div class="row g-4 mt-1">
             <div class="col-12 col-lg-5">
-                <div class="dc-card h-100 dc-card-hover border-danger-left">
-                    <div class="dc-card-title outfit-medium text-warning d-flex justify-content-between align-items-center">
+                <div class="dc-card h-100 noc-card-danger">
+                    <div class="dc-card-title outfit-medium text-danger d-flex justify-content-between align-items-center">
                         <div>
                             <i class="bi bi-shield-slash me-2 opacity-75"></i> Toma de Decisiones: Descarte vs Reparación
                         </div>
@@ -141,7 +145,7 @@
             </div>
 
             <div class="col-12 col-lg-7">
-                <div class="dc-card h-100 dc-card-hover">
+                <div class="dc-card h-100 noc-card-cyan">
                     <div class="dc-card-title outfit-medium text-cyan">
                         <i class="bi bi-cpu me-2 opacity-75"></i> Diagnóstico de Reincidencia Crítica de Hardware
                     </div>

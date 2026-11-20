@@ -59,10 +59,13 @@
 
                         <div class="row g-4 mb-5">
                             <div class="col-md-12">
-                                <label class="form-label text-muted text-uppercase tracking-wide outfit-medium" style="font-size: 0.75rem;">Contraseña Actual</label>
+                                <label for="contrasenha" class="form-label text-muted text-uppercase tracking-wide outfit-medium" style="font-size: 0.75rem;">Contraseña Actual</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-key"></i></span>
-                                    <input type="password" name="contrasenha" class="form-control dc-input @error('contrasenha') is-invalid @enderror" placeholder="Ingresa tu contraseña actual" required>
+                                    <input type="password" id="contrasenha" name="contrasenha" class="form-control dc-input @error('contrasenha') is-invalid @enderror" placeholder="Ingresa tu contraseña actual" required>
+                                    <button type="button" class="input-group-text dc-input-addon dc-toggle-password" data-target="#contrasenha" aria-label="Mostrar u ocultar contraseña actual">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
                                 </div>
                                 @error('contrasenha')
                                 <div class="text-danger mt-1" style="font-size: 0.8rem;">{{ $message }}</div>
@@ -70,10 +73,13 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-muted text-uppercase tracking-wide outfit-medium" style="font-size: 0.75rem;">Nueva Contraseña</label>
+                                <label for="contrasenhaNueva" class="form-label text-muted text-uppercase tracking-wide outfit-medium" style="font-size: 0.75rem;">Nueva Contraseña</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-shield-plus"></i></span>
-                                    <input type="password" name="contrasenhaNueva" class="form-control dc-input @error('contrasenhaNueva') is-invalid @enderror" placeholder="Nueva credencial" required>
+                                    <input type="password" id="contrasenhaNueva" name="contrasenhaNueva" class="form-control dc-input @error('contrasenhaNueva') is-invalid @enderror" placeholder="Nueva credencial" required>
+                                    <button type="button" class="input-group-text dc-input-addon dc-toggle-password" data-target="#contrasenhaNueva" aria-label="Mostrar u ocultar nueva contraseña">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
                                 </div>
                                 @error('contrasenhaNueva')
                                 <div class="text-danger mt-1" style="font-size: 0.8rem;">{{ $message }}</div>
@@ -81,10 +87,13 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label text-muted text-uppercase tracking-wide outfit-medium" style="font-size: 0.75rem;">Confirmar Contraseña</label>
+                                <label for="contrasenhaConfirmar" class="form-label text-muted text-uppercase tracking-wide outfit-medium" style="font-size: 0.75rem;">Confirmar Contraseña</label>
                                 <div class="input-group">
                                     <span class="input-group-text dc-input-addon"><i class="bi bi-shield-check"></i></span>
-                                    <input type="password" name="contrasenhaConfirmar" class="form-control dc-input" placeholder="Repite la nueva credencial" required>
+                                    <input type="password" id="contrasenhaConfirmar" name="contrasenhaConfirmar" class="form-control dc-input" placeholder="Repite la nueva credencial" required>
+                                    <button type="button" class="input-group-text dc-input-addon dc-toggle-password" data-target="#contrasenhaConfirmar" aria-label="Mostrar u ocultar confirmación de contraseña">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -36,6 +36,9 @@
                             <i class="bi bi-key"></i>
                         </span>
                         <input type="password" class="form-control dc-input outfit-regular" id="password" name="contrasenha" placeholder="••••••••" required>
+                        <button type="button" class="input-group-text dc-input-addon dc-toggle-password" data-target="#password" aria-label="Mostrar u ocultar contraseña">
+                            <i class="bi bi-eye"></i>
+                        </button>
                     </div>
                 </div>
 

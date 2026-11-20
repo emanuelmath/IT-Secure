@@ -35,6 +35,9 @@
                             <i class="bi bi-key-fill"></i>
                         </span>
                         <input type="password" class="form-control dc-input outfit-regular" id="password" name="password" placeholder="Mínimo 8 caracteres" required autofocus>
+                        <button type="button" class="input-group-text dc-input-addon dc-toggle-password" data-target="#password" aria-label="Mostrar u ocultar nueva contraseña">
+                            <i class="bi bi-eye"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -45,6 +48,9 @@
                             <i class="bi bi-check-circle-fill"></i>
                         </span>
                         <input type="password" class="form-control dc-input outfit-regular" id="password_confirmation" name="password_confirmation" placeholder="Repite la contraseña" required>
+                        <button type="button" class="input-group-text dc-input-addon dc-toggle-password" data-target="#password_confirmation" aria-label="Mostrar u ocultar confirmación de contraseña">
+                            <i class="bi bi-eye"></i>
+                        </button>
                     </div>
                 </div>
 

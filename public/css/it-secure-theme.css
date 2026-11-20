@@ -6,6 +6,9 @@
     --dc-bg-elevated: #111827;
     --dc-cyan: #38bdf8;
     --dc-blue-electric: #3b82f6;
+    --dc-success: #10b981;
+    --dc-warning: #f59e0b;
+    --dc-danger: #ef4444;
     --dc-glow: rgba(56, 189, 248, 0.15);
     --dc-border: rgba(255, 255, 255, 0.07);
     --dc-text-main: #f8fafc;
@@ -809,6 +812,27 @@ select.dc-input {
 .dc-asset-sticker {
     background-color: var(--dc-bg-surface);
     border: 1px dashed var(--dc-border);
+}
+
+.dc-toggle-password {
+    cursor: pointer;
+    color: var(--dc-text-muted);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.dc-toggle-password:hover,
+.dc-toggle-password:focus-visible {
+    color: var(--dc-cyan);
+    outline: none;
+}
+
+.input-group > .dc-input:not(:last-child) {
+    border-right: 0;
+}
+
+.input-group > .dc-input:focus + .dc-toggle-password {
+    border-color: var(--dc-cyan);
+    color: var(--dc-cyan);
 }
 
 @media print {
